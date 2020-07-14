@@ -1,0 +1,75 @@
+
+
+
+\documentclass[12pt]{article}
+
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\title{Exposé Final Project \\ \small{Sempix} \\ \small{SoSe20}}
+\author{Alexander Koch, Meryem Karalioglu, Rodrigo Lopez Portillo Alcocer}
+\date{July 13 2020}
+
+\begin{document}
+\maketitle	
+
+
+
+\section{Introduction}
+
+At the intersection between the visual and textual modality image captioning requires not only understanding of the image but also the ability to generate language.
+A key characteristic of an image captioning model is to capture the most salient aspects of the image.
+MacLeod \textit{et al.} found that visually impaired people for instance are very trusting when it comes to computer generated text \cite{blind}.
+But are automatic image captions sufficiently accurate?
+It is not enough for a model to "understand" the image as a list of objects \cite{bernardi2016automatic}.
+The textual description of the image needs to be adequately specific.
+
+Modern image captioning systems rely on neural network architectures. 
+Commonly an encoder-decoder architecture is used consisting of two components: a convolutional neural network (CNN) for object detection and feature extraction, and a recurrent neural network (RNN) for language generation. These systems employ pre-trained CNN and RNN models. 
+However, the generated image captions tend to become too generalized and apply to a multitude of images.
+We pose the assessement of the quality of image captions as a question of discriminativeness.\\
+
+
+
+\textbf{How Discriminative are Neural Image Captions?}
+
+\textit{Evaluation of Neural Image Captions Based on Caption-Image Retrieval.}\\
+
+
+Given a raw set of images, our system will generate captions for all items in the set. The task is to query the correct image I given a textual description E. 
+The algorithm will retrieve a list of top images matching that query meant to describe the desired image. 
+For this we will train a neural network to find a sentence representation that matches with the corresponding image representation. 
+Matches can then be found using a k-nearest-neighbor approach (KNN) or similar. Additionally the input set will contain a set of distractors to try to confuse the network. 
+The final evaluation will be based on the success rate of correctly retrieved images.
+
+\section{Related Work}
+
+We base our work on \textit{Show, attend and tell: Neural image caption generation with visual attention} \cite{xu2015show} as it provides a captioning architecture to be used as a baseline.
+As an extension \textit{Attacking Visual Language Grounding with Adversarial Examples:A Case Study on Neural Image Captioning} \cite{chen2017attacking} Proposes Show-and-Fool algorithm for crafting adversarial examples for neural image captioning. This can be useful when generating the set of distractors, such that the process can be automated instead of handpicking negative examples. The paper uses this approach to improve their model’s robustness.
+Similar to this \textit{Show, tell and discriminate: Image captioning by self-retrieval with partially labeled data} \cite{liu2018show}  tries to improve the robustness and quality of captions. In this case however, this is done by performing self-retrieval. They use this self-retrieval as a guidance metric to encourage discriminative captions. Paper focuses especially on avoiding generalized caption and uses the REINFORCE algorithm with CiDEr as reward function. This shows an approach on how to evaluate our project’s caption system.
+
+\section{Planned Work Packages}
+
+We will train our model on the MSCOCO corpus.
+Possible pre-trained models for the encoder and decoder are VGG or ResNet and Word2Vec or GloVe respectively.
+
+
+
+\newpage
+
+\bibliography{expose} 
+\bibliographystyle{ieeetr}
+
+
+
+\end{document}
