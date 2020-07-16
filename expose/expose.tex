@@ -55,12 +55,12 @@ The final evaluation will be based on the success rate of correctly retrieved im
 \section{Related Work}
 
 We base our work on \textit{Show, attend and tell: Neural image caption generation with visual attention} \cite{xu2015show} as it provides a captioning architecture to be used as a baseline.
-As an extension \textit{Attacking Visual Language Grounding with Adversarial Examples:A Case Study on Neural Image Captioning} \cite{chen2017attacking} Proposes Show-and-Fool algorithm for crafting adversarial examples for neural image captioning. This can be useful when generating the set of distractors, such that the process can be automated instead of handpicking negative examples. The paper uses this approach to improve their model’s robustness.
-Similar to this \textit{Show, tell and discriminate: Image captioning by self-retrieval with partially labeled data} \cite{liu2018show}  tries to improve the robustness and quality of captions. In this case however, this is done by performing self-retrieval. They use this self-retrieval as a guidance metric to encourage discriminative captions. Paper focuses especially on avoiding generalized caption and uses the REINFORCE algorithm with CiDEr as reward function. This shows an approach on how to evaluate our project’s caption system.
+As an extension \textit{Attacking Visual Language Grounding with Adversarial Examples:A Case Study on Neural Image Captioning} \cite{chen2017attacking} proposes Show-and-Fool algorithm for crafting adversarial examples for neural image captioning. This can be useful when generating the set of distractors, such that the process can be automated instead of handpicking negative examples. The paper uses this approach to improve their model’s robustness.
+Similar to this \textit{Show, tell and discriminate: Image captioning by self-retrieval with partially labeled data} \cite{liu2018show}  tries to improve the robustness and quality of captions. In this case however, this is done by performing self-retrieval. They use this self-retrieval as a guidance metric to encourage discriminative captions. The paper focuses especially on avoiding generalized caption and uses the REINFORCE algorithm with CiDEr as reward function. This shows an approach on how to evaluate our project’s caption system.
 
 \section{Planned Work Packages}
 
-We will train our model on the MSCOCO corpus.
+We will train our model on the COCO corpus.
 Possible pre-trained models for the encoder and decoder are VGG or ResNet and Word2Vec or GloVe respectively.
 
 
