@@ -46,11 +46,10 @@ We pose the assessement of the quality of image captions as a question of discri
 \textit{Evaluation of Neural Image Captions Based on Caption-Image Retrieval.}\\
 
 
-Given a raw set of images, our system will generate captions for all items in the set. The task is to query the correct image I given a textual description E. 
-The algorithm will retrieve a list of top images matching that query meant to describe the desired image. 
-For this we will train a neural network to find a sentence representation that matches with the corresponding image representation. 
-Matches can then be found using a k-nearest-neighbor approach (KNN) or similar. Additionally the input set will contain a set of distractors to try to confuse the network. 
-The final evaluation will be based on the success rate of correctly retrieved images.
+Given a raw dataset of images, we will select one image captioning model to generate captions for all items in the set. We will split this dataset into multiple smaller sets. The task is to find the correct image in each of these smaller sets, given a textual description. 
+Our system will retrieve a list of top images matching that query meant to describe the desired image. For this we will train a neural network to find a sentence representation that matches with the corresponding image representation. 
+Matches can then be found using a k-nearest-neighbor approach (KNN) or similar. Additionally the input sets will contain a set of distractors to try to confuse the network. 
+The final evaluation will be based on the success rate of correctly retrieved images over all the image sets.
 
 \section{Related Work}
 
