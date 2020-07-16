@@ -18,7 +18,7 @@
 
 \title{Exposé Final Project \\ \small{Sempix} \\ \small{SoSe20}}
 \author{Alexander Koch, Meryem Karalioglu, Rodrigo Lopez Portillo Alcocer}
-\date{July 13 2020}
+\date{July 16 2020}
 
 \begin{document}
 \maketitle	
@@ -27,17 +27,13 @@
 
 \section{Introduction}
 
-At the intersection between the visual and textual modality image captioning requires not only understanding of the image but also the ability to generate language.
-A key characteristic of an image captioning model is to capture the most salient aspects of the image.
-MacLeod \textit{et al.} found that visually impaired people for instance are very trusting when it comes to computer generated text \cite{blind}.
-But are automatic image captions sufficiently accurate?
-It is not enough for a model to "understand" the image as a list of objects \cite{bernardi2016automatic}.
-The textual description of the image needs to be adequately specific.
+At the intersection between the visual and textual modality, image captioning requires not only understanding of the image but also the ability to generate language. Being able to capture an image's most salient aspects is therefore a key characteristic of any image captioning model.
+MacLeod \textit{et al.} found that visually impaired people for instance are very trusting when it comes to computer generated text \cite{blind}, but are automatic image captions sufficiently accurate? Because it is not enough for a model to "understand" the image as a list of objects \cite{bernardi2016automatic}, the textual description of the image needs to be adequately specific.
 
 Modern image captioning systems rely on neural network architectures. 
 Commonly an encoder-decoder architecture is used consisting of two components: a convolutional neural network (CNN) for object detection and feature extraction, and a recurrent neural network (RNN) for language generation. These systems employ pre-trained CNN and RNN models. 
 However, the generated image captions tend to become too generalized and apply to a multitude of images.
-We pose the assessement of the quality of image captions as a question of discriminativeness.\\
+We pose the assessment of the quality of image captions as a question of discriminativeness.\\
 
 
 
@@ -64,11 +60,11 @@ Possible pre-trained models for the encoder and decoder are VGG or ResNet and Wo
 
 \begin{itemize}
     \item Generate and test different image captioning models and find an appropriate dataset to test the model on.
-    \item Generate batches of images to test the system
-    \item Implement language based models and convolutional neural nets to generate representations of captions and images
-    \item Train a model to find a weight matrix to map caption and image representations  into the same space
-    \item Implement a system to retrieve images with the highest similarity to the given caption
-    \item Evaluate the system, report on different metrics
+    \item Create the smaller image batches on which to test the system.
+    \item Implement language based models and convolutional neural nets to generate representations of captions and images.
+    \item Train a model to find a weight matrix to map caption and image representations  into the same space.
+    \item Implement a system to retrieve images with the highest similarity to the given caption.
+    \item Evaluate the system, report on different metrics.
 \end{itemize}
 
 \newpage
