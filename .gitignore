@@ -7,3 +7,5 @@
 *.fls
 *.synctex.gz
 *.jpg
+*.DS_Store
+*.ipynb_checkpoints
