@@ -9,6 +9,8 @@ from get_loader import get_loader
 from model import CNNtoRNN
 from PIL import Image
 
+dset_name = "flickr"
+
 def train():
     transform = transforms.Compose(
         [
@@ -18,13 +20,24 @@ def train():
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
     )
-
-    train_loader, dataset = get_loader(
-        root_folder="/media/alex/home/mscoco/val2017",
-        annotation_file="/media/alex/home/mscoco/annotations/captions_val2017.json",
-        transform=transform,
-        num_workers=2,
-    )
+    
+    train_loader, dataset = None, None
+    if dset_name == "flickr":
+        train_loader, dataset = get_loader(
+            root_folder="flickr8k/images",
+            annotation_file="flickr8k/captions.txt",
+            transform=transform,
+            dataset=dset_name,
+            num_workers=2,
+        )
+    elif dset_name == "coco":
+        train_loader, dataset = get_loader(
+            root_folder="mscoco/train2014",
+            annotation_file="mscoco/annotations/captions_train2014.json",
+            transform=transform,
+            dataset=dset_name,
+            num_workers=2,
+        )
 
     torch.backends.cudnn.benchmark = True
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -41,7 +54,7 @@ def train():
     num_epochs = 5
 
     # for tensorboard
-    writer = SummaryWriter("runs/coco")
+    writer = SummaryWriter(f"runs/{dset_name}")
     step = 0
 
     # initialize model, loss etc

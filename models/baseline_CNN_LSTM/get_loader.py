@@ -142,13 +142,16 @@ def get_loader(
     root_folder,
     annotation_file,
     transform,
+    dataset="flickr8k",
     batch_size=32,
     num_workers=8,
     shuffle=True,
     pin_memory=True,
 ):
-    #dataset = FlickrDataset(root_folder, annotation_file, transform=transform)
-    dataset = CocoDataset(root_folder, annotation_file, transform=transform)
+    if dataset == "flickr":
+        dataset = FlickrDataset(root_folder, annotation_file, transform=transform)
+    elif dataset == "coco":
+        dataset = CocoDataset(root_folder, annotation_file, transform=transform)
 
     pad_idx = dataset.vocab.stoi["<PAD>"]
 
