@@ -38,7 +38,7 @@ def train():
     vocab_size = len(dataset.vocab)
     num_layers = 1
     learning_rate = 3e-4
-    num_epochs = 100
+    num_epochs = 5
 
     # for tensorboard
     writer = SummaryWriter("runs/coco")
