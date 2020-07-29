@@ -7,7 +7,7 @@ from torch.utils.tensorboard import SummaryWriter
 from utils import save_checkpoint, load_checkpoint, print_examples
 from get_loader import get_loader
 from model import CNNtoRNN
-
+from PIL import Image
 
 def train():
     transform = transforms.Compose(
@@ -20,8 +20,8 @@ def train():
     )
 
     train_loader, dataset = get_loader(
-        root_folder="flickr8k/images",
-        annotation_file="flickr8k/captions.txt",
+        root_folder="/media/alex/home/mscoco/val2017",
+        annotation_file="/media/alex/home/mscoco/annotations/captions_val2017.json",
         transform=transform,
         num_workers=2,
     )
@@ -29,7 +29,7 @@ def train():
     torch.backends.cudnn.benchmark = True
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     load_model = False
-    save_model = False
+    save_model = True
     train_CNN = False
 
     # Hyperparameters
@@ -41,7 +41,7 @@ def train():
     num_epochs = 100
 
     # for tensorboard
-    writer = SummaryWriter("runs/flickr")
+    writer = SummaryWriter("runs/coco")
     step = 0
 
     # initialize model, loss etc
@@ -58,12 +58,13 @@ def train():
 
     if load_model:
         step = load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
-
+ 
     model.train()
 
     for epoch in range(num_epochs):
         # Uncomment the line below to see a couple of test cases
         # print_examples(model, device, dataset)
+        print("Epoch:", epoch)
 
         if save_model:
             checkpoint = {

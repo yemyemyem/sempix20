@@ -6,7 +6,8 @@ from torch.nn.utils.rnn import pad_sequence  # pad batch
 from torch.utils.data import DataLoader, Dataset
 from PIL import Image  # Load img
 import torchvision.transforms as transforms
-
+from pycocotools.coco import COCO
+import math
 
 # We want to convert text -> numerical values
 # 1. We need a Vocabulary mapping each word to a index
@@ -89,6 +90,40 @@ class FlickrDataset(Dataset):
 
         return img, torch.tensor(numericalized_caption)
 
+class CocoDataset(Dataset):
+    def __init__(self, root_dir, captions_file, transform=None, freq_threshold=5):
+        self.root_dir = root_dir
+        self.transform = transform
+        self.coco_caps = COCO(captions_file)
+        self.imgs = self.coco_caps.getImgIds()
+        self.captions = []
+
+        for img in self.imgs:
+            ann_ids = self.coco_caps.getAnnIds(img)
+            anns = self.coco_caps.loadAnns(ann_ids)
+            self.captions.extend([ann["caption"] for ann in anns])
+        
+        self.vocab = Vocabulary(freq_threshold)
+        self.vocab.build_vocabulary(self.captions)
+
+    def __len__(self):
+        return len(self.imgs) * 5
+
+    def __getitem__(self, index):
+        caption = self.captions[index]
+        img_id = self.imgs[math.floor(index / 5)]
+        img_path = self.coco_caps.loadImgs(ids=img_id)[0]["file_name"]
+
+        img = Image.open(os.path.join(self.root_dir, img_path)).convert("RGB")
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        numericalized_caption = [self.vocab.stoi["<SOS>"]]
+        numericalized_caption += self.vocab.numericalize(caption)
+        numericalized_caption.append(self.vocab.stoi["<EOS>"])
+
+        return img, torch.tensor(numericalized_caption)
 
 class MyCollate:
     def __init__(self, pad_idx):
@@ -112,7 +147,8 @@ def get_loader(
     shuffle=True,
     pin_memory=True,
 ):
-    dataset = FlickrDataset(root_folder, annotation_file, transform=transform)
+    #dataset = FlickrDataset(root_folder, annotation_file, transform=transform)
+    dataset = CocoDataset(root_folder, annotation_file, transform=transform)
 
     pad_idx = dataset.vocab.stoi["<PAD>"]
 
