@@ -7,7 +7,9 @@ from torch.utils.tensorboard import SummaryWriter
 from utils import save_checkpoint, load_checkpoint, print_examples
 from get_loader import get_loader
 from model import CNNtoRNN
+from PIL import Image
 
+dset_name = "flickr"
 
 def train():
     transform = transforms.Compose(
@@ -19,17 +21,28 @@ def train():
         ]
     )
 
-    train_loader, dataset = get_loader(
-        root_folder="data/flickr8k/images",
-        annotation_file="data/flickr8k/tiny_captions.txt",
-        transform=transform,
-        num_workers=2,
-    )
+    train_loader, dataset = None, None
+    if dset_name == "flickr":
+        train_loader, dataset = get_loader(
+            root_folder="flickr8k/images",
+            annotation_file="flickr8k/captions.txt",
+            transform=transform,
+            dataset=dset_name,
+            num_workers=2,
+        )
+    elif dset_name == "coco":
+        train_loader, dataset = get_loader(
+            root_folder="mscoco/train2014",
+            annotation_file="mscoco/annotations/captions_train2014.json",
+            transform=transform,
+            dataset=dset_name,
+            num_workers=2,
+        )
 
     torch.backends.cudnn.benchmark = True
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     load_model = False
-    save_model = False
+    save_model = True
     train_CNN = False
 
     # Hyperparameters
@@ -41,7 +54,7 @@ def train():
     num_epochs = 1
 
     # for tensorboard
-    writer = SummaryWriter("runs/flickr")
+    writer = SummaryWriter(f"runs/{dset_name}")
     step = 0
 
     # initialize model, loss etc
@@ -58,6 +71,7 @@ def train():
     for epoch in range(num_epochs):
         # Uncomment the line below to see a couple of test cases
         # print_examples(model, device, dataset)
+        print("Epoch:", epoch)
 
         if save_model:
             checkpoint = {
