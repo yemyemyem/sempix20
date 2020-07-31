@@ -143,7 +143,7 @@ def get_loader(
     annotation_file,
     transform,
     dataset="flickr8k",
-    batch_size=32,
+    batch_size=128,
     num_workers=8,
     shuffle=True,
     pin_memory=True,

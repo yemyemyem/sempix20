@@ -8,6 +8,7 @@ from utils import save_checkpoint, load_checkpoint, print_examples
 from get_loader import get_loader
 from model import CNNtoRNN
 from PIL import Image
+import pickle
 
 dset_name = "flickr"
 
@@ -25,7 +26,7 @@ def train():
     if dset_name == "flickr":
         train_loader, dataset = get_loader(
             root_folder="flickr8k/images",
-            annotation_file="flickr8k/captions.txt",
+            annotation_file="flickr8k/captions_train.txt",
             transform=transform,
             dataset=dset_name,
             num_workers=2,
@@ -39,9 +40,12 @@ def train():
             num_workers=2,
         )
 
+    with open("vocab.pkl", "wb") as f:
+        pickle.dump(dataset.vocab, f)
+
     torch.backends.cudnn.benchmark = True
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    load_model = False
+    load_model = True
     save_model = True
     train_CNN = False
 
@@ -50,8 +54,8 @@ def train():
     hidden_size = 256
     vocab_size = len(dataset.vocab)
     num_layers = 1
-    learning_rate = 3e-4
-    num_epochs = 5
+    learning_rate = 1e-3
+    num_epochs = 100
 
     # for tensorboard
     writer = SummaryWriter(f"runs/{dset_name}")

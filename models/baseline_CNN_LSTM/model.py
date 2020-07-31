@@ -8,7 +8,7 @@ class EncoderCNN(nn.Module):
     def __init__(self, embed_size, train_CNN=False):
         super(EncoderCNN, self).__init__()
         self.train_CNN = train_CNN
-        self.inception = models.inception_v3(pretrained=True, aux_logits=False)
+        self.inception = models.inception_v3(pretrained=True, aux_logits=False, init_weights=False)
         self.inception.fc = nn.Linear(self.inception.fc.in_features, embed_size)
         self.relu = nn.ReLU()
         self.times = []
@@ -23,14 +23,14 @@ class DecoderRNN(nn.Module):
     def __init__(self, embed_size, hidden_size, vocab_size, num_layers):
         super(DecoderRNN, self).__init__()
         self.embed = nn.Embedding(vocab_size, embed_size)
-        self.lstm = nn.LSTM(embed_size, hidden_size, num_layers)
+        self.gru = nn.GRU(embed_size, hidden_size, num_layers)
         self.linear = nn.Linear(hidden_size, vocab_size)
         self.dropout = nn.Dropout(0.5)
 
     def forward(self, features, captions):
         embeddings = self.dropout(self.embed(captions))
         embeddings = torch.cat((features.unsqueeze(0), embeddings), dim=0)
-        hiddens, _ = self.lstm(embeddings)
+        hiddens, _ = self.gru(embeddings)
         outputs = self.linear(hiddens)
         return outputs
 
@@ -54,7 +54,7 @@ class CNNtoRNN(nn.Module):
             states = None
 
             for _ in range(max_length):
-                hiddens, states = self.decoderRNN.lstm(x, states)
+                hiddens, states = self.decoderRNN.gru(x, states)
                 output = self.decoderRNN.linear(hiddens.squeeze(0))
                 predicted = output.argmax(1)
                 result_caption.append(predicted.item())
