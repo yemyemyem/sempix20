@@ -21,7 +21,7 @@ def train():
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
     )
-    
+
     train_loader, dataset = None, None
     if dset_name == "flickr":
         train_loader, dataset = get_loader(
@@ -50,8 +50,8 @@ def train():
     train_CNN = False
 
     # Hyperparameters
-    embed_size = 256
-    hidden_size = 256
+    embed_size = 5
+    hidden_size = 5
     vocab_size = len(dataset.vocab)
     num_layers = 1
     learning_rate = 1e-3
@@ -66,16 +66,10 @@ def train():
     criterion = nn.CrossEntropyLoss(ignore_index=dataset.vocab.stoi["<PAD>"])
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    # Only finetune the CNN
-    for name, param in model.encoderCNN.inception.named_parameters():
-        if "fc.weight" in name or "fc.bias" in name:
-            param.requires_grad = True
-        else:
-            param.requires_grad = train_CNN
 
     if load_model:
         step = load_checkpoint(torch.load("my_checkpoint.pth.tar"), model, optimizer)
- 
+
     model.train()
 
     for epoch in range(num_epochs):
