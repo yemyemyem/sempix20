@@ -65,6 +65,12 @@ class MultiModalModel(nn.Module):
         self.inception.fc = nn.Linear(self.inception.fc.in_features, hidden_dim)
         self.gru = nn.GRU(embedding_dim, hidden_dim)
 
+        for name, param in self.inception.named_parameters():
+            if "fc.weight" in name or "fc.bias" in name:
+                param.requires_grad = True
+            else:
+                param.requires_grad = False
+
     def forward_cnn(self, img):
         result = self.inception(img)
         return result / torch.norm(result, p=2, dim=1).view(-1,1)
