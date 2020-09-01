@@ -88,7 +88,7 @@ class Collate:
         return imgs, targets
 
 class ConstrastiveLoss:
-    def __init__(self, margin=0.5):
+    def __init__(self, margin=0.05):
         self.margin = margin
 
     def __call__(self, output, target):
