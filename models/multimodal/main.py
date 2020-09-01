@@ -63,16 +63,17 @@ class MultiModalModel(nn.Module):
         self.gru = nn.GRU(embedding_dim, hidden_dim)
 
     def forward_cnn(self, img):
-        return torch.norm(self.inception(img), p=2, dim=1)
+        result = self.inception(img)
+        return result / torch.norm(result, p=2, dim=1).view(-1,1)
 
     def forward_cap(self, cap):
         _, hidden = self.gru(cap.float())
-        return torch.norm(hidden[-1], p=2, dim=1)
+        return hidden[-1] / torch.norm(hidden[-1], p=2, dim=1).view(-1,1)
 
     def forward(self, x):
         img, cap = x
-        embd_img = self.forward_cnn(img).view(-1,1)
-        embd_cap = self.forward_cap(cap).view(-1,1)
+        embd_img = self.forward_cnn(img)
+        embd_cap = self.forward_cap(cap)
         return torch.cat((embd_img, embd_cap), dim=1)
 
 class Collate:
@@ -94,7 +95,7 @@ class ConstrastiveLoss:
         img, cap = torch.chunk(output, 2, dim=1)
         batch_size = img.shape[0]
         img = img.unsqueeze(0)
-        cap = cap.unsqueeze(0).view(batch_size,1,1)
+        cap = cap.unsqueeze(0).view(batch_size,1,cap.shape[1])
         errors = torch.square(img - cap).sum(axis=2)
         diagonal = torch.diagonal(errors, 0)
         cost_captions = torch.max(torch.zeros(batch_size), self.margin -errors + diagonal)
