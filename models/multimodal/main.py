@@ -139,24 +139,29 @@ def main():
 
     w2i = { w:i for i,w in enumerate(words) }
     i2w = { i:w for i,w in enumerate(words) }
-
+    
+    # Load glove embedding for the word in the vocabulary
     glove = KeyedVectors.load_word2vec_format("glove.6B.100d.bin.word2vec", binary=True)
-    embedding = np.zeros((len(words), 100))
+    embedding = np.zeros((len(words), glove.vector_size))
     for i, word in enumerate(words):
         if word in glove:
             embedding[i] = glove[word]
         else:
-            embedding[i] = np.random.uniform(-1,1,100)
-
+            embedding[i] = np.random.uniform(-1,1,glove.vector_size)
+    
+    # Hyper parameters
     batch_size = 16
-
+    hidden_size = 1024
+    
+    # Flickr dataset loading
     transform = transforms.Compose([
         transforms.Resize((224,224)),
         transforms.ToTensor()])
     flickr = FlickrDataset("flickr8k/images", "flickr8k/captions.txt", embedding, w2i, transform)
     loader = DataLoader(dataset=flickr, batch_size=batch_size, shuffle=True, collate_fn=Collate(w2i["<PAD>"]))
-
-    model = MultiModalModel(100, 1024).to(device)
+    
+    # Model, loss and optimizer definition
+    model = MultiModalModel(glove.vector_size, hidden_size).to(device)
     optimizer = optim.Adam(model.parameters())
     criterion = ConstrastiveLoss()
 
