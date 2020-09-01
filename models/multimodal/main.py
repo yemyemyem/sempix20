@@ -14,6 +14,7 @@ from PIL import Image
 import os
 
 spacy_eng = spacy.load("en")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def encode_caption(w2i, caption):
     v = np.zeros((len(caption)+2), dtype=np.long)
@@ -28,7 +29,7 @@ def encode_caption(w2i, caption):
 
 def embed_caption(embedding, w2i, caption):
     caption0 = encode_caption(w2i, caption)
-    return torch.tensor([embedding[idx] for idx in caption0])
+    return torch.FloatTensor([embedding[idx] for idx in caption0]).to(device)
 
 class FlickrDataset(Dataset):
     def __init__(self, root_dir, captions_file, embedding, w2i, transform):
@@ -52,7 +53,9 @@ class FlickrDataset(Dataset):
 
         img_id = self.imgs[index]
         img = Image.open(os.path.join(self.root_dir, img_id)).convert("RGB")
-        return self.transform(img), embed_caption(self.embedding, self.w2i,caption)
+        out_img = self.transform(img).to(device)
+        out_cap = embed_caption(self.embedding, self.w2i,caption).to(device)
+        return out_img, out_cap
 
 class MultiModalModel(nn.Module):
     def __init__(self, embedding_dim, hidden_dim):
@@ -67,7 +70,7 @@ class MultiModalModel(nn.Module):
         return result / torch.norm(result, p=2, dim=1).view(-1,1)
 
     def forward_cap(self, cap):
-        _, hidden = self.gru(cap.float())
+        _, hidden = self.gru(cap)
         return hidden[-1] / torch.norm(hidden[-1], p=2, dim=1).view(-1,1)
 
     def forward(self, x):
@@ -94,12 +97,14 @@ class ConstrastiveLoss:
     def __call__(self, output, target):
         img, cap = torch.chunk(output, 2, dim=1)
         batch_size = img.shape[0]
+        zeros = torch.zeros(batch_size).to(device)
+
         img = img.unsqueeze(0)
         cap = cap.unsqueeze(0).view(batch_size,1,cap.shape[1])
         errors = torch.square(img - cap).sum(axis=2)
         diagonal = torch.diagonal(errors, 0)
-        cost_captions = torch.max(torch.zeros(batch_size), self.margin -errors + diagonal)
-        cost_images = torch.max(torch.zeros(batch_size), self.margin -errors + diagonal.reshape((-1,1)))
+        cost_captions = torch.max(zeros, self.margin -errors + diagonal)
+        cost_images = torch.max(zeros, self.margin -errors + diagonal.reshape((-1,1)))
         cost = cost_captions + cost_images
         cost.fill_diagonal_(0)
         return cost.sum()
@@ -142,8 +147,8 @@ def main():
             embedding[i] = glove[word]
         else:
             embedding[i] = np.random.uniform(-1,1,100)
-    
-    batch_size = 8
+
+    batch_size = 16
 
     transform = transforms.Compose([
         transforms.Resize((224,224)),
@@ -151,8 +156,8 @@ def main():
     flickr = FlickrDataset("flickr8k/images", "flickr8k/captions.txt", embedding, w2i, transform)
     loader = DataLoader(dataset=flickr, batch_size=batch_size, shuffle=True, collate_fn=Collate(w2i["<PAD>"]))
 
-    model = MultiModalModel(100, 100)
-    optimizer = optim.RMSprop(model.parameters())
+    model = MultiModalModel(100, 1024).to(device)
+    optimizer = optim.Adam(model.parameters())
     criterion = ConstrastiveLoss()
 
     running_loss = 0
