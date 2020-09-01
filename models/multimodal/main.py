@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import torch
 import torch.nn as nn
+import torch.optim as optim
 import torchvision.models as models
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
@@ -85,6 +86,23 @@ class Collate:
         targets = pad_sequence(targets, batch_first=False, padding_value=self.idx)
         return imgs, targets
 
+class ConstrastiveLoss:
+    def __init__(self, margin=0.5):
+        self.margin = margin
+
+    def __call__(self, output, target):
+        img, cap = torch.chunk(output, 2, dim=1)
+        batch_size = img.shape[0]
+        img = img.unsqueeze(0)
+        cap = cap.unsqueeze(0).view(batch_size,1,1)
+        errors = torch.square(img - cap).sum(axis=2)
+        diagonal = torch.diagonal(errors, 0)
+        cost_captions = torch.max(torch.zeros(batch_size), self.margin -errors + diagonal)
+        cost_images = torch.max(torch.zeros(batch_size), self.margin -errors + diagonal.reshape((-1,1)))
+        cost = cost_captions + cost_images
+        cost.fill_diagonal_(0)
+        return cost.sum()
+
 def main():
     captions = pd.read_csv("flickr8k/captions.txt")
     tokenized_captions = list()
@@ -124,17 +142,32 @@ def main():
         else:
             embedding[i] = np.random.uniform(-1,1,100)
     
+    batch_size = 8
+
     transform = transforms.Compose([
         transforms.Resize((224,224)),
         transforms.ToTensor()])
     flickr = FlickrDataset("flickr8k/images", "flickr8k/captions.txt", embedding, w2i, transform)
-    loader = DataLoader(dataset=flickr, batch_size=8, shuffle=True, collate_fn=Collate(w2i["<PAD>"]))
+    loader = DataLoader(dataset=flickr, batch_size=batch_size, shuffle=True, collate_fn=Collate(w2i["<PAD>"]))
 
-    model = MultiModalModel(100, 100) 
+    model = MultiModalModel(100, 100)
+    optimizer = optim.RMSprop(model.parameters())
+    criterion = ConstrastiveLoss()
 
-    for x in loader:
+    running_loss = 0
+    target = torch.zeros(batch_size, 2)
+    for i, x in enumerate(loader):
+        optimizer.zero_grad()
+
         out = model(x)
-        print(out.shape)
+        loss = criterion(out, target)
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+        if i % 10 == 0:
+            print("Loss:", running_loss / 10)
+            running_loss = 0
 
 if __name__ == "__main__":
     main()
