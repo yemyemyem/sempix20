@@ -38,9 +38,12 @@ def train():
     #train_set, test_set = torch.utils.data.random_split(dataset, [107287, 11000]) #training, test
     #OLD VERSION
 
+    with open("vocab.pkl", "wb") as f:
+        pickle.dump(dataset.vocab, f)
+
     torch.backends.cudnn.benchmark = True
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    load_model = False
+    load_model = True
     save_model = True
     train_CNN = False
 
@@ -49,8 +52,8 @@ def train():
     hidden_size = 5
     vocab_size = len(dataset.vocab)
     num_layers = 1
-    learning_rate = 3e-4
-    num_epochs = 1
+    learning_rate = 1e-3
+    num_epochs = 100
 
     # for tensorboard
     writer = SummaryWriter("runs/coco")
