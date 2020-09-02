@@ -14,6 +14,8 @@ from PIL import Image
 import os
 import argparse
 
+from sklearn.decomposition import PCA
+
 spacy_eng = spacy.load("en")
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -192,7 +194,7 @@ def main():
     if args.train:
         running_loss = 0
         target = torch.zeros(batch_size, 2)
-        for epoch in range(3):
+        for epoch in range(5):
             print("Epoch:", epoch)
             for i, x in enumerate(loader):
                 optimizer.zero_grad()
@@ -211,20 +213,32 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_2.pth"))
+        model.load_state_dict(torch.load("bin/model_4.pth"))
 
         sample_df = pd.read_csv("sample.txt")
+
+        # Sample a caption and compute its combined-space embedding vector
         caption = sample_df.iloc[0]["caption"]
-        print(caption)
         tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
-        print(tokenized_caption)
-        embedded_caption = embed_caption(embedding, w2i, caption)
-        print(embedded_caption)
-        embedded_caption = embedded_caption.unsqueeze(1)
-        print(embedded_caption.shape)
+        embedded_caption = embed_caption(embedding, w2i, caption).unsqueeze(1)
+        cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
+        print("Embedded vector:", cap_vec)
+    
+        # For each of the images compute the combined-space embedding vectors
+        # Calculate the distance to the caption vector (KNN)
+        img_ids = sample_df["image"]
+        errors = np.zeros(10)
+        for i, img_id in enumerate(img_ids):
+            img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
+            img_transformed = transform(img).unsqueeze(0).to(device)
+            img_vec = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
+            
+            errors[i] = np.square(np.linalg.norm(cap_vec - img_vec))
+            print(i, img_id, errors[i])
         
-        result = model.forward_cap(embedded_caption)
-        print("Embedded vector:", result)
+        min_idx = np.argmin(errors)
+        print("Arg min:", min_idx)
+        print("Best image:", img_ids[min_idx])
 
 if __name__ == "__main__":
     main()
