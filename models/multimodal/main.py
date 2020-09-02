@@ -189,7 +189,7 @@ def main():
     optimizer = optim.Adam(model.parameters())
     criterion = ContrastiveLoss()
 
-    #model.load_state_dict(torch.load("bin/model_39.pth"))
+    #model.load_state_dict(torch.load("bin/model_4.pth"))
 
     if args.train:
         running_loss = 0
@@ -213,7 +213,7 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_4.pth"))
+        model.load_state_dict(torch.load("bin/model_9.pth"))
 
         sample_df = pd.read_csv("sample.txt")
 
