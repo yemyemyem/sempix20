@@ -12,6 +12,7 @@ import pandas as pd
 from gensim.models import KeyedVectors
 from PIL import Image
 import os
+import argparse
 
 spacy_eng = spacy.load("en")
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -122,7 +123,11 @@ class ContrastiveLoss:
         return cost.sum()
 
 def main():
-    captions = pd.read_csv("flickr8k/captions.txt")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--train", action="store_true", help="train model")
+    args = parser.parse_args()
+
+    captions = pd.read_csv("flickr8k/captions_train.txt")
     tokenized_captions = list()
     freq_dict = dict()
     
@@ -137,10 +142,12 @@ def main():
 
         tokenized_captions.append(tokens)
     
+    glove = KeyedVectors.load_word2vec_format("glove.6B.100d.bin.word2vec", binary=True)
+
     # Truncate vocab
     vocab = set()
     for key,value in freq_dict.items():
-        if value >= 4:
+        if value >= 4 and key in glove:
             vocab.add(key)
     
     # Build word index
@@ -153,47 +160,71 @@ def main():
     i2w = { i:w for i,w in enumerate(words) }
     
     # Load glove embedding for the word in the vocabulary
-    glove = KeyedVectors.load_word2vec_format("glove.6B.100d.bin.word2vec", binary=True)
-    embedding = np.zeros((len(words), glove.vector_size))
+    k = glove.vector_size
+    embedding_size = glove.vector_size+4
+    embedding = np.zeros((len(words), embedding_size))
     for i, word in enumerate(words):
         if word in glove:
-            embedding[i] = glove[word]
+            embedding[i] = np.concatenate((glove[word], np.zeros(4)))
         else:
-            embedding[i] = np.random.uniform(-1,1,glove.vector_size)
-    
+            embedding[i] = np.zeros(embedding_size)
+            embedding[i][k] = 1
+            k += 1
+
     # Hyper parameters
-    batch_size = 8
-    hidden_size = 1000
+    batch_size = 16
+    hidden_size = 1024
     
     # Flickr dataset loading
     transform = transforms.Compose([
         transforms.Resize((224,224)),
         transforms.ToTensor()])
-    flickr = FlickrDataset("flickr8k/images", "flickr8k/captions.txt", embedding, w2i, transform)
+    flickr = FlickrDataset("flickr8k/images", "flickr8k/captions_train.txt", embedding, w2i, transform)
     loader = DataLoader(dataset=flickr, batch_size=batch_size, shuffle=True, collate_fn=Collate(w2i["<PAD>"]))
     
     # Model, loss and optimizer definition
-    model = MultiModalModel(glove.vector_size, hidden_size).to(device)
+    model = MultiModalModel(embedding_size, hidden_size).to(device)
     optimizer = optim.Adam(model.parameters())
     criterion = ContrastiveLoss()
 
-    running_loss = 0
-    k = 0
-    target = torch.zeros(batch_size, 2)
-    for i, x in enumerate(loader):
-        optimizer.zero_grad()
+    #model.load_state_dict(torch.load("bin/model_39.pth"))
 
-        out = model(x)
-        loss = criterion(out, target)
-        loss.backward()
-        optimizer.step()
+    if args.train:
+        running_loss = 0
+        target = torch.zeros(batch_size, 2)
+        for epoch in range(3):
+            print("Epoch:", epoch)
+            for i, x in enumerate(loader):
+                optimizer.zero_grad()
 
-        running_loss += loss.item()
-        if i % 200 == 0:
-            print("Loss:", running_loss / 200)
-            running_loss = 0
-            torch.save(model.state_dict(), f"bin/model_{k}.pth")
-            k += 1
+                out = model(x)
+                loss = criterion(out, target)
+                loss.backward()
+                optimizer.step()
+
+                running_loss += loss.item()
+                if i % 200 == 199:
+                    print("Loss:", running_loss / 200)
+                    running_loss = 0
+
+            torch.save(model.state_dict(), f"bin/model_{epoch}.pth")
+            print(f"Saved to: bin/model_{epoch}.pth")
+    else:
+        model.eval()
+        model.load_state_dict(torch.load("bin/model_2.pth"))
+
+        sample_df = pd.read_csv("sample.txt")
+        caption = sample_df.iloc[0]["caption"]
+        print(caption)
+        tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
+        print(tokenized_caption)
+        embedded_caption = embed_caption(embedding, w2i, caption)
+        print(embedded_caption)
+        embedded_caption = embedded_caption.unsqueeze(1)
+        print(embedded_caption.shape)
+        
+        result = model.forward_cap(embedded_caption)
+        print("Embedded vector:", result)
 
 if __name__ == "__main__":
     main()
