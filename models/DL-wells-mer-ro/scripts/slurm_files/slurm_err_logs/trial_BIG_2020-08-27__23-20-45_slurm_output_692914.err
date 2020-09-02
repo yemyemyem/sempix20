@@ -1,0 +1,554 @@
+cpu-bind=MASK - node119, task  0  0 [7731]: mask 0x101 set
+cpu-bind=MASK - node122, task  7  1 [6225]: mask 0x100 set
+cpu-bind=MASK - node181, task 26  0 [30600]: mask 0x400 set
+cpu-bind=MASK - node184, task 33  1 [29353]: mask 0x800 set
+cpu-bind=MASK - node124, task 10  0 [31057]: mask 0x1 set
+cpu-bind=MASK - node180, task 25  1 [27119]: mask 0x800 set
+cpu-bind=MASK - node119, task  0  0 [7770]: mask 0x1 set
+cpu-bind=MASK - node120, task  2  0 [23727]: mask 0x1 set
+cpu-bind=MASK - node121, task  4  0 [24600]: mask 0x1 set
+cpu-bind=MASK - node131, task 22  0 [22963]: mask 0x1 set
+cpu-bind=MASK - node182, task 29  1 [19848]: mask 0x800 set
+cpu-bind=MASK - node183, task 30  0 [8290]: mask 0x400 set
+cpu-bind=MASK - node122, task  6  0 [6224]: mask 0x1 set
+cpu-bind=MASK - node181, task 27  1 [30601]: mask 0x800 set
+cpu-bind=MASK - node184, task 32  0 [29352]: mask 0x400 set
+cpu-bind=MASK - node124, task 11  1 [31058]: mask 0x100 set
+cpu-bind=MASK - node180, task 24  0 [27118]: mask 0x400 set
+cpu-bind=MASK - node119, task  1  1 [7771]: mask 0x100 set
+cpu-bind=MASK - node120, task  3  1 [23728]: mask 0x100 set
+cpu-bind=MASK - node121, task  5  1 [24601]: mask 0x100 set
+cpu-bind=MASK - node131, task 23  1 [22964]: mask 0x100 set
+cpu-bind=MASK - node182, task 28  0 [19847]: mask 0x400 set
+cpu-bind=MASK - node183, task 31  1 [8291]: mask 0x800 set
+cpu-bind=MASK - node185, task 34  0 [2266]: mask 0x400 set
+cpu-bind=MASK - node127, task 16  0 [16517]: mask 0x1 set
+cpu-bind=MASK - node186, task 37  1 [5948]: mask 0x800 set
+cpu-bind=MASK - node125, task 13  1 [11436]: mask 0x100 set
+cpu-bind=MASK - node126, task 14  0 [4944]: mask 0x1 set
+cpu-bind=MASK - node130, task 20  0 [17202]: mask 0x1 set
+cpu-bind=MASK - node128, task 18  0 [31163]: mask 0x1 set
+cpu-bind=MASK - node123, task  8  0 [26722]: mask 0x1 set
+cpu-bind=MASK - node185, task 35  1 [2267]: mask 0x800 set
+cpu-bind=MASK - node187, task 39  1 [24683]: mask 0x800 set
+cpu-bind=MASK - node127, task 17  1 [16518]: mask 0x100 set
+cpu-bind=MASK - node186, task 36  0 [5947]: mask 0x400 set
+cpu-bind=MASK - node125, task 12  0 [11435]: mask 0x1 set
+cpu-bind=MASK - node126, task 15  1 [4945]: mask 0x100 set
+cpu-bind=MASK - node130, task 21  1 [17203]: mask 0x100 set
+cpu-bind=MASK - node128, task 19  1 [31164]: mask 0x100 set
+cpu-bind=MASK - node123, task  9  1 [26723]: mask 0x100 set
+cpu-bind=MASK - node187, task 38  0 [24682]: mask 0x400 set
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 37, MEMBER: 38/40
+GPU available: True, used: True
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 15, MEMBER: 16/40
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 27, MEMBER: 28/40
+GPU available: True, used: True
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 29, MEMBER: 30/40
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 33, MEMBER: 34/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 14, MEMBER: 15/40
+GPU available: True, used: True
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 35, MEMBER: 36/40
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 23, MEMBER: 24/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 12, MEMBER: 13/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 13, MEMBER: 14/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 17, MEMBER: 18/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 4, MEMBER: 5/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 5, MEMBER: 6/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 21, MEMBER: 22/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 31, MEMBER: 32/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 20, MEMBER: 21/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 3, MEMBER: 4/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 10, MEMBER: 11/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 18, MEMBER: 19/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 19, MEMBER: 20/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 9, MEMBER: 10/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 11, MEMBER: 12/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 32, MEMBER: 33/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 22, MEMBER: 23/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 16, MEMBER: 17/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 2, MEMBER: 3/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 39, MEMBER: 40/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 30, MEMBER: 31/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 26, MEMBER: 27/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 8, MEMBER: 9/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 25, MEMBER: 26/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 28, MEMBER: 29/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 36, MEMBER: 37/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 34, MEMBER: 35/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 38, MEMBER: 39/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 24, MEMBER: 25/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 7, MEMBER: 8/40
+GPU available: True, used: True
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 6, MEMBER: 7/40
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 0, MEMBER: 1/40
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 1, MEMBER: 2/40
+----------------------------------------------------------------------------------------------------
+distributed_backend=ddp
+All DDP processes registered. Starting ddp with 40 processes
+----------------------------------------------------------------------------------------------------
+Set SLURM handle signals.
+Set SLURM handle signals.
+/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/utilities/distributed.py:37: UserWarning: Could not log computational graph since the `model.example_input_array` attribute is not set or `input_array` was not given
+  warnings.warn(*args, **kwargs)
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+
+  | Name    | Type      | Params
+--------------------------------------
+0 | resnet  | ResNet    | 11 M  
+1 | relu    | ReLU      | 0     
+2 | drop    | Dropout   | 0     
+3 | embed   | Embedding | 2 M   
+4 | lstm    | LSTM      | 502 K 
+5 | linear  | Linear    | 2 M   
+6 | dropout | Dropout   | 0     
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 245, in _feed
+    send_bytes(obj)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+BrokenPipeError: [Errno 32] Broken pipe
+handling SIGUSR1
+handling SIGUSR1
+handling SIGUSR1
+handling SIGUSR1
+Process Process-2323:
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/utils/data/_utils/worker.py", line 167, in _worker_loop
+    r = index_queue.get(timeout=MP_STATUS_CHECK_INTERVAL)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 107, in get
+    if not self._poll(timeout):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 930, in wait
+    ready = selector.select(timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_io.py", line 247, in sig_handler
+    self.hpc_save(self.weights_save_path, self.logger)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_io.py", line 506, in hpc_save
+    atomic_save(checkpoint, filepath)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/utilities/cloud_io.py", line 109, in atomic_save
+    torch.save(checkpoint, bytesbuffer, _use_new_zipfile_serialization=False)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/serialization.py", line 366, in save
+    _legacy_save(obj, opened_file, pickle_module, pickle_protocol)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/serialization.py", line 437, in _legacy_save
+    serialized_storages[key]._write_file(f, _should_read_directly(f), True)
+RuntimeError: CUDA error: initialization error
+Process Process-2324:
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/utils/data/_utils/worker.py", line 167, in _worker_loop
+    r = index_queue.get(timeout=MP_STATUS_CHECK_INTERVAL)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 107, in get
+    if not self._poll(timeout):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 930, in wait
+    ready = selector.select(timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_io.py", line 247, in sig_handler
+    self.hpc_save(self.weights_save_path, self.logger)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_io.py", line 506, in hpc_save
+    atomic_save(checkpoint, filepath)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/utilities/cloud_io.py", line 109, in atomic_save
+    torch.save(checkpoint, bytesbuffer, _use_new_zipfile_serialization=False)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/serialization.py", line 366, in save
+    _legacy_save(obj, opened_file, pickle_module, pickle_protocol)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/serialization.py", line 437, in _legacy_save
+    serialized_storages[key]._write_file(f, _should_read_directly(f), True)
+RuntimeError: CUDA error: initialization error
+Process Process-2321:
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/utils/data/_utils/worker.py", line 167, in _worker_loop
+    r = index_queue.get(timeout=MP_STATUS_CHECK_INTERVAL)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/queues.py", line 107, in get
+    if not self._poll(timeout):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 257, in poll
+    return self._poll(timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 424, in _poll
+    r = wait([self], timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/multiprocessing/connection.py", line 930, in wait
+    ready = selector.select(timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_io.py", line 247, in sig_handler
+    self.hpc_save(self.weights_save_path, self.logger)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_io.py", line 506, in hpc_save
+    atomic_save(checkpoint, filepath)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/utilities/cloud_io.py", line 109, in atomic_save
+    torch.save(checkpoint, bytesbuffer, _use_new_zipfile_serialization=False)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/serialization.py", line 366, in save
+    _legacy_save(obj, opened_file, pickle_module, pickle_protocol)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/serialization.py", line 437, in _legacy_save
+    serialized_storages[key]._write_file(f, _should_read_directly(f), True)
+RuntimeError: CUDA error: initialization error
+handling SIGUSR1
+requeing job 692914...
+Requested operation is presently disabled for job 692914
+Traceback (most recent call last):
+  File "/cluster/apps/python/3.8.2/lib/python3.8/subprocess.py", line 342, in call
+    return p.wait(timeout=timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/subprocess.py", line 1079, in wait
+    return self._wait(timeout=timeout)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/subprocess.py", line 1804, in _wait
+    (pid, sts) = self._try_wait(0)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/subprocess.py", line 1762, in _try_wait
+    (pid, sts) = os.waitpid(self.pid, wait_flags)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/utils/data/_utils/signal_handling.py", line 66, in handler
+    _error_if_any_worker_fails()
+RuntimeError: DataLoader worker (pid 3311) exited unexpectedly with exit code 1. Details are lost due to multiprocessing. Rerunning with num_workers=0 may give better error trace.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 224, in ddp_train
+    results = self.trainer.run_pretrain_routine(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1239, in run_pretrain_routine
+    self.train()
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_loop.py", line 394, in train
+    self.run_training_epoch()
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_loop.py", line 491, in run_training_epoch
+    batch_output = self.run_training_batch(batch, batch_idx)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_loop.py", line 877, in run_training_batch
+    self.batch_loss_value.append(opt_closure_result.loss)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/supporters.py", line 62, in append
+    x = x.to(self.memory)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/training_io.py", line 255, in sig_handler
+    result = call(cmd)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/subprocess.py", line 344, in call
+    p.kill()
+  File "/cluster/apps/python/3.8.2/lib/python3.8/subprocess.py", line 1941, in kill
+    self.send_signal(signal.SIGKILL)
+  File "/cluster/apps/python/3.8.2/lib/python3.8/subprocess.py", line 1931, in send_signal
+    os.kill(self.pid, sig)
+ProcessLookupError: [Errno 3] No such process
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 692914 ON node119 CANCELLED AT 2020-08-30T23:21:16 DUE TO TIME LIMIT ***
+slurmstepd: error: *** STEP 692914.0 ON node119 CANCELLED AT 2020-08-30T23:21:16 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination
+srun: error: Timed out waiting for job step to complete

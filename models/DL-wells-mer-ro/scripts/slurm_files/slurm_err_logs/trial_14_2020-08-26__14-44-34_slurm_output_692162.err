@@ -1,0 +1,215 @@
+cpu-bind=MASK - node102, task  0  0 [11843]: mask 0xc00 set
+cpu-bind=MASK - node145, task 18  0 [28834]: mask 0x400 set
+cpu-bind=MASK - node102, task  0  0 [11873]: mask 0x400 set
+cpu-bind=MASK - node150, task 20  0 [30917]: mask 0x400 set
+cpu-bind=MASK - node131, task 15  1 [12063]: mask 0x800 set
+cpu-bind=MASK - node125, task  6  0 [7655]: mask 0x400 set
+cpu-bind=MASK - node126, task  9  1 [1287]: mask 0x800 set
+cpu-bind=MASK - node127, task 11  1 [11902]: mask 0x800 set
+cpu-bind=MASK - node130, task 13  1 [7509]: mask 0x800 set
+cpu-bind=MASK - node145, task 19  1 [28835]: mask 0x800 set
+cpu-bind=MASK - node102, task  1  1 [11874]: mask 0x800 set
+cpu-bind=MASK - node150, task 21  1 [30918]: mask 0x800 set
+cpu-bind=MASK - node131, task 14  0 [12062]: mask 0x400 set
+cpu-bind=MASK - node125, task  7  1 [7656]: mask 0x800 set
+cpu-bind=MASK - node126, task  8  0 [1286]: mask 0x400 set
+cpu-bind=MASK - node127, task 10  0 [11901]: mask 0x400 set
+cpu-bind=MASK - node130, task 12  0 [7508]: mask 0x400 set
+cpu-bind=MASK - node143, task 16  0 [31317]: mask 0x400 set
+cpu-bind=MASK - node115, task  4  0 [24703]: mask 0x400 set
+cpu-bind=MASK - node105, task  3  1 [7443]: mask 0x800 set
+cpu-bind=MASK - node143, task 17  1 [31318]: mask 0x800 set
+cpu-bind=MASK - node115, task  5  1 [24704]: mask 0x800 set
+cpu-bind=MASK - node105, task  2  0 [7442]: mask 0x400 set
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 9, MEMBER: 10/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 11, MEMBER: 12/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 7, MEMBER: 8/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 10, MEMBER: 11/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 8, MEMBER: 9/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 6, MEMBER: 7/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 13, MEMBER: 14/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 12, MEMBER: 13/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 21, MEMBER: 22/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 20, MEMBER: 21/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 15, MEMBER: 16/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 17, MEMBER: 18/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 3, MEMBER: 4/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 14, MEMBER: 15/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 16, MEMBER: 17/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 2, MEMBER: 3/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 19, MEMBER: 20/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 18, MEMBER: 19/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 5, MEMBER: 6/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 1, MEMBER: 2/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 0, MEMBER: 1/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 4, MEMBER: 5/22
+----------------------------------------------------------------------------------------------------
+distributed_backend=ddp
+All DDP processes registered. Starting ddp with 22 processes
+----------------------------------------------------------------------------------------------------
+Set SLURM handle signals.
+/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/utilities/distributed.py:37: UserWarning: Could not log computational graph since the `model.example_input_array` attribute is not set or `input_array` was not given
+  warnings.warn(*args, **kwargs)
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+Set SLURM handle signals.
+
+  | Name    | Type      | Params
+--------------------------------------
+0 | resnet  | ResNet    | 11 M  
+1 | relu    | ReLU      | 0     
+2 | drop    | Dropout   | 0     
+3 | embed   | Embedding | 2 M   
+4 | lstm    | LSTM      | 321 K 
+5 | linear  | Linear    | 2 M   
+6 | dropout | Dropout   | 0     
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+Saving latest checkpoint..
+
+
+Profiler Report
+
+Action              	|  Mean duration (s)	|  Total time (s) 
+-----------------------------------------------------------------
+on_train_start      	|  0.0030358      	|  0.0030358      
+on_epoch_start      	|  0.00032454     	|  0.016227       
+on_train_epoch_start	|  1.1689e-05     	|  0.00058445     
+get_train_batch     	|  0.021689       	|  412.08         
+on_batch_start      	|  0.0001131      	|  2.1432         
+on_train_batch_start	|  8.4841e-05     	|  1.6077         
+model_forward       	|  0.035857       	|  679.48         
+model_backward      	|  0.14181        	|  2687.3         
+on_after_backward   	|  2.6054e-06     	|  0.049373       
+optimizer_step      	|  0.045766       	|  867.27         
+on_batch_end        	|  4.1973e-05     	|  0.7954         
+on_train_batch_end  	|  0.0012593      	|  23.863         
+on_epoch_end        	|  3.1104e-05     	|  0.0015552      
+on_train_epoch_end  	|  9.5573e-06     	|  0.00047787     
+on_train_end        	|  0.00031877     	|  0.00031877     
+

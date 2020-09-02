@@ -1,0 +1,456 @@
+cpu-bind=MASK - node121, task  0  0 [15986]: mask 0x3 set
+cpu-bind=MASK - node129, task  6  0 [22603]: mask 0x400 set
+cpu-bind=MASK - node139, task 10  0 [16861]: mask 0x400 set
+cpu-bind=MASK - node121, task  0  0 [16016]: mask 0x1 set
+cpu-bind=MASK - node191, task 18  0 [15456]: mask 0x400 set
+cpu-bind=MASK - node192, task 20  0 [18913]: mask 0x400 set
+cpu-bind=MASK - node159, task 16  0 [2806]: mask 0x400 set
+cpu-bind=MASK - node124, task  2  0 [22935]: mask 0x400 set
+cpu-bind=MASK - node128, task  4  0 [23547]: mask 0x400 set
+cpu-bind=MASK - node133, task  9  1 [29185]: mask 0x800 set
+cpu-bind=MASK - node129, task  7  1 [22604]: mask 0x800 set
+cpu-bind=MASK - node139, task 11  1 [16862]: mask 0x800 set
+cpu-bind=MASK - node121, task  1  1 [16017]: mask 0x2 set
+cpu-bind=MASK - node191, task 19  1 [15457]: mask 0x800 set
+cpu-bind=MASK - node192, task 21  1 [18914]: mask 0x800 set
+cpu-bind=MASK - node159, task 17  1 [2807]: mask 0x800 set
+cpu-bind=MASK - node124, task  3  1 [22936]: mask 0x800 set
+cpu-bind=MASK - node128, task  5  1 [23548]: mask 0x800 set
+cpu-bind=MASK - node133, task  8  0 [29184]: mask 0x400 set
+cpu-bind=MASK - node153, task 12  0 [13617]: mask 0x400 set
+cpu-bind=MASK - node153, task 13  1 [13618]: mask 0x800 set
+cpu-bind=MASK - node156, task 14  0 [11000]: mask 0x400 set
+cpu-bind=MASK - node156, task 15  1 [11001]: mask 0x800 set
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 25, in main
+    trainer = Trainer(logger = logger,
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 507, in __init__
+    self.gpus = pick_multiple_gpus(gpus)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/distrib_parts.py", line 474, in pick_multiple_gpus
+    picked.append(pick_single_gpu(exclude_gpus=picked))
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/distrib_parts.py", line 468, in pick_single_gpu
+    raise RuntimeError("No GPUs available.")
+RuntimeError: No GPUs available.
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 19, MEMBER: 20/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 5, MEMBER: 6/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 9, MEMBER: 10/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 3, MEMBER: 4/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 17, MEMBER: 18/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 13, MEMBER: 14/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 15, MEMBER: 16/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 21, MEMBER: 22/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 4, MEMBER: 5/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 18, MEMBER: 19/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 8, MEMBER: 9/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 16, MEMBER: 17/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 2, MEMBER: 3/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 20, MEMBER: 21/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 1, MEMBER: 2/22
+initializing ddp: GLOBAL_RANK: 0, MEMBER: 1/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 7, MEMBER: 8/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 6, MEMBER: 7/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 12, MEMBER: 13/22
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Multi-processing is handled by Slurm.
+CUDA_VISIBLE_DEVICES: [0,1]
+initializing ddp: GLOBAL_RANK: 14, MEMBER: 15/22
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 25, in main
+    trainer = Trainer(logger = logger,
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 507, in __init__
+    self.gpus = pick_multiple_gpus(gpus)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/distrib_parts.py", line 474, in pick_multiple_gpus
+    picked.append(pick_single_gpu(exclude_gpus=picked))
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/distrib_parts.py", line 468, in pick_single_gpu
+    raise RuntimeError("No GPUs available.")
+RuntimeError: No GPUs available.
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+Traceback (most recent call last):
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/test_tube/hpc.py", line 269, in __run_experiment
+    train_function(self.hyperparam_optimizer, self)
+  File "/usr/data/bgfs1/rlopez/DL_project/DL-Project/pl_version_cluster/pl_train_cluster.py", line 34, in main
+    trainer.fit(model, dm)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/states.py", line 48, in wrapped_fn
+    result = fn(self, *args, **kwargs)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/trainer/trainer.py", line 1041, in fit
+    self.accelerator_backend.train(model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 57, in train
+    self.ddp_train(process_idx=self.task_idx, mp_queue=None, model=model)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/accelerators/ddp_backend.py", line 221, in ddp_train
+    model = model.configure_ddp(model, device_ids)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/pytorch_lightning/core/lightning.py", line 837, in configure_ddp
+    model = LightningDistributedDataParallel(model, device_ids=device_ids, find_unused_parameters=True)
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 331, in __init__
+    self._distributed_broadcast_coalesced(
+  File "/usr/home/rlopez/.local/lib/python3.8/site-packages/torch/nn/parallel/distributed.py", line 549, in _distributed_broadcast_coalesced
+    dist._broadcast_coalesced(self.process_group, tensors, buffer_size)
+RuntimeError: Socket Timeout
+----------------------------------------------------------------------------------------------------
+distributed_backend=ddp
+All DDP processes registered. Starting ddp with 22 processes
+----------------------------------------------------------------------------------------------------
+srun: error: node129: task 6: User defined signal 1
+srun: error: node129: task 7: User defined signal 1
+srun: error: node156: task 14: User defined signal 1
+srun: error: node121: task 0: User defined signal 1
+srun: error: node153: task 12: User defined signal 1
