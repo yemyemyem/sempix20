@@ -61,18 +61,24 @@ class MultiModalModel(nn.Module):
     def __init__(self, embedding_dim, hidden_dim):
         super().__init__()
 
-        self.inception = models.inception_v3(pretrained=True, aux_logits=False, init_weights=False)
-        self.inception.fc = nn.Linear(self.inception.fc.in_features, hidden_dim)
+        #self.inception = models.inception_v3(pretrained=True, aux_logits=False, init_weights=False)
+        #self.inception.fc = nn.Linear(self.inception.fc.in_features, hidden_dim)
+        self.vgg16 = models.vgg16(pretrained=True)
+        self.linear = nn.Linear(4096, hidden_dim)
+        self.vgg16.classifier = nn.Sequential(*list(self.vgg16.classifier.children())[:-4])
+        
         self.gru = nn.GRU(embedding_dim, hidden_dim)
 
-        for name, param in self.inception.named_parameters():
-            if "fc.weight" in name or "fc.bias" in name:
-                param.requires_grad = True
-            else:
-                param.requires_grad = False
+        #for name, param in self.inception.named_parameters():
+        #    if "fc.weight" in name or "fc.bias" in name:
+        #        param.requires_grad = True
+        #    else:
+        #        param.requires_grad = False
 
     def forward_cnn(self, img):
-        result = self.inception(img)
+        with torch.no_grad():
+            result = self.vgg16(img)
+        result = self.linear(result)
         return result / torch.norm(result, p=2, dim=1).view(-1,1)
 
     def forward_cap(self, cap):
@@ -96,8 +102,8 @@ class Collate:
         targets = pad_sequence(targets, batch_first=False, padding_value=self.idx)
         return imgs, targets
 
-class ConstrastiveLoss:
-    def __init__(self, margin=0.05):
+class ContrastiveLoss:
+    def __init__(self, margin=0):
         self.margin = margin
 
     def __call__(self, output, target):
@@ -156,8 +162,8 @@ def main():
             embedding[i] = np.random.uniform(-1,1,glove.vector_size)
     
     # Hyper parameters
-    batch_size = 16
-    hidden_size = 1024
+    batch_size = 8
+    hidden_size = 1000
     
     # Flickr dataset loading
     transform = transforms.Compose([
@@ -169,9 +175,10 @@ def main():
     # Model, loss and optimizer definition
     model = MultiModalModel(glove.vector_size, hidden_size).to(device)
     optimizer = optim.Adam(model.parameters())
-    criterion = ConstrastiveLoss()
+    criterion = ContrastiveLoss()
 
     running_loss = 0
+    k = 0
     target = torch.zeros(batch_size, 2)
     for i, x in enumerate(loader):
         optimizer.zero_grad()
@@ -182,9 +189,11 @@ def main():
         optimizer.step()
 
         running_loss += loss.item()
-        if i % 10 == 0:
-            print("Loss:", running_loss / 10)
+        if i % 200 == 0:
+            print("Loss:", running_loss / 200)
             running_loss = 0
+            torch.save(model.state_dict(), f"bin/model_{k}.pth")
+            k += 1
 
 if __name__ == "__main__":
     main()
