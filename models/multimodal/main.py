@@ -106,7 +106,7 @@ class Collate:
         return imgs, targets
 
 class ContrastiveLoss:
-    def __init__(self, margin=0):
+    def __init__(self, margin=1):
         self.margin = margin
 
     def __call__(self, output, target):
@@ -115,11 +115,13 @@ class ContrastiveLoss:
         zeros = torch.zeros(batch_size).to(device)
 
         img = img.unsqueeze(0)
-        cap = cap.unsqueeze(1)#.view(batch_size,1,cap.shape[1])
-        errors = torch.square(img - cap).sum(axis=2)
+        cap = cap.unsqueeze(1)
+
+        errors = -torch.square(img - cap).sum(axis=2)
         diagonal = torch.diagonal(errors, 0)
-        cost_captions = torch.max(zeros, self.margin -errors + diagonal)
-        cost_images = torch.max(zeros, self.margin -errors + diagonal.reshape((-1,1)))
+        cost_captions = torch.max(zeros, self.margin - errors + diagonal)
+        cost_images = torch.max(zeros, self.margin - errors + diagonal.reshape((-1,1)))
+
         cost = cost_captions + cost_images
         cost.fill_diagonal_(0)
         return cost.sum()
@@ -174,7 +176,7 @@ def main():
             k += 1
 
     # Hyper parameters
-    batch_size = 16
+    batch_size = 32
     hidden_size = 1024
     
     # Flickr dataset loading
@@ -213,7 +215,7 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_9.pth"))
+        model.load_state_dict(torch.load("bin/model_3.pth"))
 
         sample_df = pd.read_csv("sample.txt")
 
