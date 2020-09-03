@@ -191,12 +191,12 @@ def main():
     optimizer = optim.Adam(model.parameters())
     criterion = ContrastiveLoss()
 
-    #model.load_state_dict(torch.load("bin/model_4.pth"))
+    #model.load_state_dict(torch.load("bin/model_9.pth"))
 
     if args.train:
         running_loss = 0
         target = torch.zeros(batch_size, 2)
-        for epoch in range(5):
+        for epoch in range(20):
             print("Epoch:", epoch)
             for i, x in enumerate(loader):
                 optimizer.zero_grad()
@@ -215,7 +215,7 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_3.pth"))
+        model.load_state_dict(torch.load("bin/model_19.pth"))
 
         sample_df = pd.read_csv("sample.txt")
 
@@ -235,7 +235,7 @@ def main():
             img_transformed = transform(img).unsqueeze(0).to(device)
             img_vec = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
             
-            errors[i] = np.square(np.linalg.norm(cap_vec - img_vec))
+            errors[i] = -np.square(np.linalg.norm(cap_vec - img_vec))
         
         min_idx = np.argmin(errors)
         print("Arg min:", min_idx)
