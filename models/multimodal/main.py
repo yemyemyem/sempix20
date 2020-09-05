@@ -13,8 +13,7 @@ from gensim.models import KeyedVectors
 from PIL import Image
 import os
 import argparse
-
-from sklearn.decomposition import PCA
+from tqdm import tqdm
 
 spacy_eng = spacy.load("en")
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -57,7 +56,7 @@ class FlickrDataset(Dataset):
         img_id = self.imgs[index]
         img = Image.open(os.path.join(self.root_dir, img_id)).convert("RGB")
         out_img = self.transform(img).to(device)
-        out_cap = embed_caption(self.embedding, self.w2i,caption).to(device)
+        out_cap = embed_caption(self.embedding, self.w2i, tokens).to(device)
         return out_img, out_cap
 
 class MultiModalModel(nn.Module):
@@ -66,10 +65,10 @@ class MultiModalModel(nn.Module):
 
         #self.inception = models.inception_v3(pretrained=True, aux_logits=False, init_weights=False)
         #self.inception.fc = nn.Linear(self.inception.fc.in_features, hidden_dim)
-        self.vgg16 = models.vgg16(pretrained=True)
-        self.linear = nn.Linear(4096, hidden_dim)
-        self.vgg16.classifier = nn.Sequential(*list(self.vgg16.classifier.children())[:-4])
+        self.vgg19 = models.vgg19(pretrained=True)
+        self.vgg19.classifier = nn.Sequential(*list(self.vgg19.classifier.children())[:-4])
         
+        self.linear = nn.Linear(4096, hidden_dim)
         self.gru = nn.GRU(embedding_dim, hidden_dim)
 
         #for name, param in self.inception.named_parameters():
@@ -80,7 +79,7 @@ class MultiModalModel(nn.Module):
 
     def forward_cnn(self, img):
         with torch.no_grad():
-            result = self.vgg16(img)
+            result = self.vgg19(img)
         result = self.linear(result)
         return result / torch.norm(result, p=2, dim=1).view(-1,1)
 
@@ -191,7 +190,7 @@ def main():
     optimizer = optim.Adam(model.parameters())
     criterion = ContrastiveLoss()
 
-    #model.load_state_dict(torch.load("bin/model_9.pth"))
+    #model.load_state_dict(torch.load("bin/model_11.pth"))
 
     if args.train:
         running_loss = 0
@@ -215,16 +214,60 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_19.pth"))
+        model.load_state_dict(torch.load("bin/model_11.pth"))
+ 
+        # Test set
+        test_df = pd.read_csv("flickr8k/captions_test.txt")[:10]
+        test_img_ids = test_df["image"].unique()
+        test_img_vecs = np.zeros((len(test_img_ids), hidden_size))
+        print("Computing image vectors...")
+        for i, img_id in enumerate(tqdm(test_img_ids)):
+            img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
+            img_transformed = transform(img).unsqueeze(0).to(device)
+            test_img_vecs[i] = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
+    
+        print("Retrieving images based on captions...")
+        errors = np.zeros(len(test_img_ids))
+        correct = 0
+        for i, entry in enumerate(tqdm(test_df.values)):
+            gold_image_idx, caption = entry
+            tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
+            embedded_caption = embed_caption(embedding, w2i, tokenized_caption).unsqueeze(1)
+            cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
+            for j, img_vec in enumerate(test_img_vecs):
+                errors[j] = -np.square(np.linalg.norm(cap_vec - img_vec))
 
+            # Recall@1 - Retrieve one image and check if it is relevant
+            min_idx = np.argmin(errors)
+            img_idx = test_img_ids[min_idx]
+
+            #pred_caps = test_df[test_df["image"] == img_idx]["caption"].values
+            #avg_vec = 0
+            #for pred_cap in pred_caps:
+            #    tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(pred_cap.lower())]
+            #    embedded_caption = embed_caption(embedding, w2i, tokenized_caption).unsqueeze(1)
+            #    pred_cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
+            #    avg_vec += pred_cap_vec / len(pred_caps)
+            #avg_dist = np.square(np.linalg.norm(cap_vec - avg_vec))
+
+            #if avg_dist > 0:
+            print("Gold caption:", caption)
+            print("Captions of predicted image:", pred_caps)
+            print("Average distance:", avg_dist)
+
+            if img_idx == gold_image_idx:# or avg_dist < 1:
+                correct += 1
+
+        print(correct, correct/len(test_df))
+
+        # Custom sample
         sample_df = pd.read_csv("sample.txt")
 
         # Sample a caption and compute its combined-space embedding vector
         caption = sample_df.iloc[0]["caption"]
         tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
-        embedded_caption = embed_caption(embedding, w2i, caption).unsqueeze(1)
+        embedded_caption = embed_caption(embedding, w2i, tokenized_caption).unsqueeze(1)
         cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
-        print("Embedded vector:", cap_vec)
     
         # For each of the images compute the combined-space embedding vectors
         # Calculate the distance to the caption vector (KNN)
