@@ -60,16 +60,21 @@ class FlickrDataset(Dataset):
         return out_img, out_cap
 
 class MultiModalModel(nn.Module):
-    def __init__(self, embedding_dim, hidden_dim):
+    def __init__(self, embedding_dim, hidden_dim, bidirectional=False):
         super().__init__()
+        self.bidirectional = bidirectional
 
         #self.inception = models.inception_v3(pretrained=True, aux_logits=False, init_weights=False)
         #self.inception.fc = nn.Linear(self.inception.fc.in_features, hidden_dim)
         self.vgg19 = models.vgg19(pretrained=True)
         self.vgg19.classifier = nn.Sequential(*list(self.vgg19.classifier.children())[:-4])
         
+        if bidirectional:
+            self.gru = nn.GRU(embedding_dim, int(hidden_dim / 2), bidirectional=True)
+        else:
+            self.gru = nn.GRU(embedding_dim, hidden_dim)
+        
         self.linear = nn.Linear(4096, hidden_dim)
-        self.gru = nn.GRU(embedding_dim, hidden_dim)
 
         #for name, param in self.inception.named_parameters():
         #    if "fc.weight" in name or "fc.bias" in name:
@@ -85,7 +90,16 @@ class MultiModalModel(nn.Module):
 
     def forward_cap(self, cap):
         _, hidden = self.gru(cap)
-        return hidden[-1] / torch.norm(hidden[-1], p=2, dim=1).view(-1,1)
+        if self.bidirectional:
+            hidden = hidden.unsqueeze(0)
+            hidden_fwd = hidden[-1][0]
+            hidden_bwd = hidden[-1][1]
+
+            out = torch.cat((hidden_fwd, hidden_bwd), dim=1)
+        else:
+            out = hidden[-1]
+
+        return out / torch.norm(out, p=2, dim=1).view(-1,1)
 
     def forward(self, x):
         img, cap = x
@@ -186,7 +200,7 @@ def main():
     loader = DataLoader(dataset=flickr, batch_size=batch_size, shuffle=True, collate_fn=Collate(w2i["<PAD>"]))
     
     # Model, loss and optimizer definition
-    model = MultiModalModel(embedding_size, hidden_size).to(device)
+    model = MultiModalModel(embedding_size, hidden_size, bidirectional=True).to(device)
     optimizer = optim.Adam(model.parameters())
     criterion = ContrastiveLoss()
 
@@ -214,7 +228,7 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_11.pth"))
+        model.load_state_dict(torch.load("bin/model_6.pth"))
  
         # Test set
         test_df = pd.read_csv("flickr8k/captions_test.txt")[:10]
@@ -251,12 +265,22 @@ def main():
             #avg_dist = np.square(np.linalg.norm(cap_vec - avg_vec))
 
             #if avg_dist > 0:
-            print("Gold caption:", caption)
-            print("Captions of predicted image:", pred_caps)
-            print("Average distance:", avg_dist)
+            #print("Captions of predicted image:", pred_caps)
+            #print("Average distance:", avg_dist)
 
             if img_idx == gold_image_idx:# or avg_dist < 1:
                 correct += 1
+            else:
+                print("Gold caption:", caption)
+                print("Gold idx:", gold_image_idx)
+                print("Pred idx:", img_idx)
+
+                pred_caps = test_df[test_df["image"] == img_idx]["caption"].values
+                print("Caps for pred idx:", pred_caps)
+
+                best_10 = np.argsort(errors)[:10]
+                for i, idx in enumerate(best_10):
+                    print(i, test_img_ids[idx], errors[idx])
 
         print(correct, correct/len(test_df))
 
