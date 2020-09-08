@@ -66,15 +66,20 @@ class MultiModalModel(nn.Module):
 
         #self.inception = models.inception_v3(pretrained=True, aux_logits=False, init_weights=False)
         #self.inception.fc = nn.Linear(self.inception.fc.in_features, hidden_dim)
-        self.vgg19 = models.vgg19(pretrained=True)
-        self.vgg19.classifier = nn.Sequential(*list(self.vgg19.classifier.children())[:-4])
-        
+        #self.vgg19 = models.vgg19(pretrained=True)
+        #self.vgg19.classifier = nn.Sequential(*list(self.vgg19.classifier.children())[:-4])
+        #self.resnet = models.resnet50(pretrained=True)
+        #print(self.resnet.classifier)
+        self.resnet50 = models.resnet50(pretrained=True)
+        modules = list(self.resnet50.children())[:-1]
+        self.resnet50 = nn.Sequential(*modules)
+
         if bidirectional:
             self.gru = nn.GRU(embedding_dim, int(hidden_dim / 2), bidirectional=True)
         else:
             self.gru = nn.GRU(embedding_dim, hidden_dim)
         
-        self.linear = nn.Linear(4096, hidden_dim)
+        self.linear = nn.Linear(2048, hidden_dim)
 
         #for name, param in self.inception.named_parameters():
         #    if "fc.weight" in name or "fc.bias" in name:
@@ -84,7 +89,8 @@ class MultiModalModel(nn.Module):
 
     def forward_cnn(self, img):
         with torch.no_grad():
-            result = self.vgg19(img)
+            result = self.resnet50(img)
+        result = result.view(result.shape[0], -1)
         result = self.linear(result)
         return result / torch.norm(result, p=2, dim=1).view(-1,1)
 
@@ -202,7 +208,7 @@ def main():
     # Model, loss and optimizer definition
     model = MultiModalModel(embedding_size, hidden_size, bidirectional=True).to(device)
     optimizer = optim.Adam(model.parameters())
-    criterion = ContrastiveLoss()
+    criterion = ContrastiveLoss(margin=0.5)
 
     #model.load_state_dict(torch.load("bin/model_11.pth"))
 
@@ -228,7 +234,7 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_6.pth"))
+        model.load_state_dict(torch.load("bin/model_2.pth"))
  
         # Test set
         test_df = pd.read_csv("flickr8k/captions_test.txt")[:10]
