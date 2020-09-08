@@ -14,6 +14,7 @@ from PIL import Image
 import os
 import argparse
 from tqdm import tqdm
+from torch.utils.tensorboard import SummaryWriter
 
 spacy_eng = spacy.load("en")
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -148,7 +149,15 @@ class ContrastiveLoss:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train", action="store_true", help="train model")
+    parser.add_argument("--epoch", type=int, help="start from specified epoch")
+    parser.add_argument("--batch", type=int, default=32, help="batch size")
+    parser.add_argument("--margin", type=float, default=0.5, help="margin contrastive loss")
+    parser.add_argument("--hidden", type=int, default=1024, help="embedding vector size")
     args = parser.parse_args()
+
+    print("Margin:", args.margin)
+    print("Batch size:", args.batch)
+    print("Final vec size:", args.hidden)
 
     captions = pd.read_csv("flickr8k/captions_train.txt")
     tokenized_captions = list()
@@ -195,8 +204,8 @@ def main():
             k += 1
 
     # Hyper parameters
-    batch_size = 32
-    hidden_size = 1024
+    batch_size = args.batch
+    hidden_size = args.hidden
     
     # Flickr dataset loading
     transform = transforms.Compose([
@@ -208,14 +217,19 @@ def main():
     # Model, loss and optimizer definition
     model = MultiModalModel(embedding_size, hidden_size, bidirectional=True).to(device)
     optimizer = optim.Adam(model.parameters())
-    criterion = ContrastiveLoss(margin=0.5)
-
-    #model.load_state_dict(torch.load("bin/model_11.pth"))
+    criterion = ContrastiveLoss(margin=args.margin)
+    
+    j = 0
+    if args.epoch:
+        model.load_state_dict(torch.load(f"bin/model_{args.epoch}.pth"))
+        j = int(args.epoch)+1
 
     if args.train:
+        writer = SummaryWriter()
+
         running_loss = 0
         target = torch.zeros(batch_size, 2)
-        for epoch in range(20):
+        for epoch in range(j,j+20):
             print("Epoch:", epoch)
             for i, x in enumerate(loader):
                 optimizer.zero_grad()
@@ -230,11 +244,13 @@ def main():
                     print("Loss:", running_loss / 200)
                     running_loss = 0
 
+                writer.add_scalar("loss", loss.item(), i*epoch)
+
             torch.save(model.state_dict(), f"bin/model_{epoch}.pth")
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_2.pth"))
+        model.load_state_dict(torch.load("bin/model_6.pth"))
  
         # Test set
         test_df = pd.read_csv("flickr8k/captions_test.txt")[:10]
