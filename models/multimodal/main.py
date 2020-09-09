@@ -226,6 +226,7 @@ def main():
 
     if args.train:
         writer = SummaryWriter()
+        k = 0
 
         running_loss = 0
         target = torch.zeros(batch_size, 2)
@@ -244,16 +245,17 @@ def main():
                     print("Loss:", running_loss / 200)
                     running_loss = 0
 
-                writer.add_scalar("loss", loss.item(), i*epoch)
+                writer.add_scalar("loss", loss.item(), k)
+                k += 1
 
             torch.save(model.state_dict(), f"bin/model_{epoch}.pth")
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_6.pth"))
+        model.load_state_dict(torch.load("bin/model_22.pth"))
  
         # Test set
-        test_df = pd.read_csv("flickr8k/captions_test.txt")[:10]
+        test_df = pd.read_csv("flickr8k/captions_test.txt").sample(1000).reset_index(drop=True)
         test_img_ids = test_df["image"].unique()
         test_img_vecs = np.zeros((len(test_img_ids), hidden_size))
         print("Computing image vectors...")
@@ -262,49 +264,51 @@ def main():
             img_transformed = transform(img).unsqueeze(0).to(device)
             test_img_vecs[i] = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
     
-        print("Retrieving images based on captions...")
-        errors = np.zeros(len(test_img_ids))
-        correct = 0
-        for i, entry in enumerate(tqdm(test_df.values)):
-            gold_image_idx, caption = entry
+        print("Computing caption vectors...")
+        cap_vecs = np.zeros((len(test_df), hidden_size))
+        for i, caption in enumerate(tqdm(test_df["caption"])):
             tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
             embedded_caption = embed_caption(embedding, w2i, tokenized_caption).unsqueeze(1)
-            cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
+            cap_vecs[i] = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
+
+        print("Retrieving captions based on images...")
+        errors = np.zeros(len(test_df))
+        recall1 = 0
+        recall10 = 0
+        for i, img in enumerate(tqdm(test_img_ids)):
+            img_vec = test_img_vecs[i]
+            gold_img_caps = test_df[test_df["image"] == img]["caption"].values
+            for j, cap_vec in enumerate(cap_vecs):
+                errors[j] = -np.square(np.linalg.norm(cap_vec - img_vec))
+            
+            best = test_df["caption"][np.argmin(errors)]
+            if best in gold_img_caps:
+                recall1 += 1 / len(test_img_ids)
+
+            best_10 = np.argsort(errors)[:10]
+            num_found = 0
+            for i, idx in enumerate(best_10):
+                caption = test_df["caption"][idx]
+                if caption in gold_img_caps:
+                    num_found += 1
+            r10 = num_found / len(gold_img_caps)
+            recall10 += r10 / len(test_img_ids)
+        print("=> Recall@1:", recall1)
+        print("=> Recall@10:", recall10)
+
+        print("Retrieving images based on captions...")
+        errors = np.zeros(len(test_img_ids))
+        recall = 0
+        for i, gold_image_name in enumerate(tqdm(test_df["image"])):
+            cap_vec = cap_vecs[i]
             for j, img_vec in enumerate(test_img_vecs):
                 errors[j] = -np.square(np.linalg.norm(cap_vec - img_vec))
 
-            # Recall@1 - Retrieve one image and check if it is relevant
-            min_idx = np.argmin(errors)
-            img_idx = test_img_ids[min_idx]
-
-            #pred_caps = test_df[test_df["image"] == img_idx]["caption"].values
-            #avg_vec = 0
-            #for pred_cap in pred_caps:
-            #    tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(pred_cap.lower())]
-            #    embedded_caption = embed_caption(embedding, w2i, tokenized_caption).unsqueeze(1)
-            #    pred_cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
-            #    avg_vec += pred_cap_vec / len(pred_caps)
-            #avg_dist = np.square(np.linalg.norm(cap_vec - avg_vec))
-
-            #if avg_dist > 0:
-            #print("Captions of predicted image:", pred_caps)
-            #print("Average distance:", avg_dist)
-
-            if img_idx == gold_image_idx:# or avg_dist < 1:
-                correct += 1
-            else:
-                print("Gold caption:", caption)
-                print("Gold idx:", gold_image_idx)
-                print("Pred idx:", img_idx)
-
-                pred_caps = test_df[test_df["image"] == img_idx]["caption"].values
-                print("Caps for pred idx:", pred_caps)
-
-                best_10 = np.argsort(errors)[:10]
-                for i, idx in enumerate(best_10):
-                    print(i, test_img_ids[idx], errors[idx])
-
-        print(correct, correct/len(test_df))
+            img_name = test_img_ids[np.argmin(errors)]
+            if img_name == gold_image_name:
+                recall += 1 / len(test_df)
+         
+        print("=> Recall@1:", recall)
 
         # Custom sample
         sample_df = pd.read_csv("sample.txt")
