@@ -16,6 +16,23 @@ We use a GRU for language modelling with GloVe vectors as embedding and a pretra
 As loss function, the contrastive loss a.k.a pairwise ranking loss is used.
 The contrastive loss enforces correct instances to have a penalty of zero and incorrect instances to reach a certain penalty margin.
 
+### Training
+
+Before training the model, setup the flickr dataset with `flickr_split.py` and
+convert the GloVe embeddings using `glove_conv.py`.
+
+Then, you can train via
+
+```
+python3 main.py --train
+```
+
+### Evaluation
+
+You can generate a random sample using `subset.py`.
+Run the `main.py` script without the training flag.
+The recall will be computed for image to caption and vice versa.
+
 ### Hyperparameters:
 
 * Margin
