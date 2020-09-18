@@ -39,7 +39,6 @@ class FlickrDataset(Dataset):
         self.root_dir = root_dir
         self.df = pd.read_csv(captions_file)
 
-        # Get img, caption columns
         self.imgs = self.df["image"]
         self.captions = self.df["caption"]
 
@@ -65,12 +64,6 @@ class MultiModalModel(nn.Module):
         super().__init__()
         self.bidirectional = bidirectional
 
-        #self.inception = models.inception_v3(pretrained=True, aux_logits=False, init_weights=False)
-        #self.inception.fc = nn.Linear(self.inception.fc.in_features, hidden_dim)
-        #self.vgg19 = models.vgg19(pretrained=True)
-        #self.vgg19.classifier = nn.Sequential(*list(self.vgg19.classifier.children())[:-4])
-        #self.resnet = models.resnet50(pretrained=True)
-        #print(self.resnet.classifier)
         self.resnet50 = models.resnet50(pretrained=True)
         modules = list(self.resnet50.children())[:-1]
         self.resnet50 = nn.Sequential(*modules)
@@ -81,12 +74,6 @@ class MultiModalModel(nn.Module):
             self.gru = nn.GRU(embedding_dim, hidden_dim)
         
         self.linear = nn.Linear(2048, hidden_dim)
-
-        #for name, param in self.inception.named_parameters():
-        #    if "fc.weight" in name or "fc.bias" in name:
-        #        param.requires_grad = True
-        #    else:
-        #        param.requires_grad = False
 
     def forward_cnn(self, img):
         with torch.no_grad():
@@ -150,8 +137,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train", action="store_true", help="train model")
     parser.add_argument("--epoch", type=int, help="start from specified epoch")
-    parser.add_argument("--batch", type=int, default=32, help="batch size")
-    parser.add_argument("--margin", type=float, default=0.5, help="margin contrastive loss")
+    parser.add_argument("--batch", type=int, default=128, help="batch size")
+    parser.add_argument("--margin", type=float, default=0.1, help="margin contrastive loss")
     parser.add_argument("--hidden", type=int, default=1024, help="embedding vector size")
     args = parser.parse_args()
 
@@ -230,7 +217,7 @@ def main():
 
         running_loss = 0
         target = torch.zeros(batch_size, 2)
-        for epoch in range(j,j+20):
+        for epoch in range(j,j+24):
             print("Epoch:", epoch)
             for i, x in enumerate(loader):
                 optimizer.zero_grad()
@@ -241,8 +228,8 @@ def main():
                 optimizer.step()
 
                 running_loss += loss.item()
-                if i % 200 == 199:
-                    print("Loss:", running_loss / 200)
+                if i % 100 == 99:
+                    print("Loss:", running_loss / 100)
                     running_loss = 0
 
                 writer.add_scalar("loss", loss.item(), k)
@@ -298,7 +285,8 @@ def main():
 
         print("Retrieving images based on captions...")
         errors = np.zeros(len(test_img_ids))
-        recall = 0
+        recall1 = 0
+        recall10 = 0
         for i, gold_image_name in enumerate(tqdm(test_df["image"])):
             cap_vec = cap_vecs[i]
             for j, img_vec in enumerate(test_img_vecs):
@@ -306,9 +294,19 @@ def main():
 
             img_name = test_img_ids[np.argmin(errors)]
             if img_name == gold_image_name:
-                recall += 1 / len(test_df)
+                recall1 += 1 / len(test_df)
+
+            best_10 = np.argsort(errors)[:10]
+            found = 0
+            for idx in best_10:
+                img_name = test_img_ids[idx]
+                if img_name == gold_image_name:
+                    found = 1
+                    break
+            recall10 += found / len(test_df)
          
-        print("=> Recall@1:", recall)
+        print("=> Recall@1:", recall1)
+        print("=> Recall@10:", recall10)
 
         # Custom sample
         sample_df = pd.read_csv("sample.txt")
