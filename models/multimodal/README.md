@@ -33,6 +33,13 @@ You can generate a random sample using `subset.py`.
 Run the `main.py` script without the training flag.
 The recall will be computed for image to caption and vice versa.
 
+Current results:
+
+|           | Image-caption retrieval | Caption-image retrieval |
+|-----------|-------------------------|-------------------------|
+| Recall@1  | 0.32                    | 0.29                    |
+| Recall@10 | 0.74                    | 0.73                    |
+
 ### Hyperparameters:
 
 * Margin
