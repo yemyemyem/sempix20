@@ -2,104 +2,44 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torchvision.models as models
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
 from torch.nn.utils.rnn import pad_sequence
 import numpy as np
-import spacy
 import pandas as pd
-from gensim.models import KeyedVectors
 from PIL import Image
 import os
 import argparse
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
 
-spacy_eng = spacy.load("en")
+from model import MultiModalModel
+from vectorizer import CaptionVectorizer
+
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-def encode_caption(w2i, caption):
-    v = np.zeros((len(caption)+2), dtype=np.long)
-    v[0] = w2i["<SOS>"]
-    for i, token in enumerate(caption):
-        if token in w2i:
-            v[i+1] = w2i[token]
-        else:
-            v[i+1] = w2i["<UNK>"]
-    v[len(caption)+1] = w2i["<EOS>"]
-    return v
-
-def embed_caption(embedding, w2i, caption):
-    caption0 = encode_caption(w2i, caption)
-    return torch.FloatTensor([embedding[idx] for idx in caption0]).to(device)
-
 class FlickrDataset(Dataset):
-    def __init__(self, root_dir, captions_file, embedding, w2i, transform):
+    def __init__(self, root_dir, captions_file, vectorizer, transform):
         self.root_dir = root_dir
         self.df = pd.read_csv(captions_file)
 
         self.imgs = self.df["image"]
         self.captions = self.df["caption"]
 
-        self.w2i = w2i
-        self.embedding = embedding
+        self.vectorizer = vectorizer
         self.transform = transform
 
     def __len__(self):
         return len(self.df)
 
     def __getitem__(self, index):
-        caption = self.captions[index]
-        tokens = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
-
         img_id = self.imgs[index]
         img = Image.open(os.path.join(self.root_dir, img_id)).convert("RGB")
         out_img = self.transform(img).to(device)
-        out_cap = embed_caption(self.embedding, self.w2i, tokens).to(device)
+            
+        caption = self.captions[index]
+        out_cap = self.vectorizer(caption).to(device)
         return out_img, out_cap
-
-class MultiModalModel(nn.Module):
-    def __init__(self, embedding_dim, hidden_dim, bidirectional=False):
-        super().__init__()
-        self.bidirectional = bidirectional
-
-        self.resnet50 = models.resnet50(pretrained=True)
-        modules = list(self.resnet50.children())[:-1]
-        self.resnet50 = nn.Sequential(*modules)
-
-        if bidirectional:
-            self.gru = nn.GRU(embedding_dim, int(hidden_dim / 2), bidirectional=True)
-        else:
-            self.gru = nn.GRU(embedding_dim, hidden_dim)
-        
-        self.linear = nn.Linear(2048, hidden_dim)
-
-    def forward_cnn(self, img):
-        with torch.no_grad():
-            result = self.resnet50(img)
-        result = result.view(result.shape[0], -1)
-        result = self.linear(result)
-        return result / torch.norm(result, p=2, dim=1).view(-1,1)
-
-    def forward_cap(self, cap):
-        _, hidden = self.gru(cap)
-        if self.bidirectional:
-            hidden = hidden.unsqueeze(0)
-            hidden_fwd = hidden[-1][0]
-            hidden_bwd = hidden[-1][1]
-
-            out = torch.cat((hidden_fwd, hidden_bwd), dim=1)
-        else:
-            out = hidden[-1]
-
-        return out / torch.norm(out, p=2, dim=1).view(-1,1)
-
-    def forward(self, x):
-        img, cap = x
-        embd_img = self.forward_cnn(img)
-        embd_cap = self.forward_cap(cap)
-        return torch.cat((embd_img, embd_cap), dim=1)
 
 class Collate:
     def __init__(self, idx):
@@ -133,6 +73,104 @@ class ContrastiveLoss:
         cost.fill_diagonal_(0)
         return cost.sum()
 
+def evaluate(model, transform, vectorizer, sample_size=1000):
+    # Test set
+    test_df = pd.read_csv("flickr8k/captions_test.txt").sample(sample_size).reset_index(drop=True)
+    test_img_ids = test_df["image"].unique()
+    test_img_vecs = np.zeros((len(test_img_ids), model.hidden_dim))
+    print("Computing image vectors...")
+    for i, img_id in enumerate(tqdm(test_img_ids)):
+        img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
+        img_transformed = transform(img).unsqueeze(0).to(device)
+        test_img_vecs[i] = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
+
+    print("Computing caption vectors...")
+    cap_vecs = np.zeros((len(test_df), model.hidden_dim))
+    for i, caption in enumerate(tqdm(test_df["caption"])):
+        embedded_caption = vectorizer(caption).unsqueeze(1).to(device)
+        cap_vecs[i] = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
+
+    print("Retrieving captions based on images...")
+    errors = np.zeros(len(test_df))
+    im2cap_recall1 = 0
+    im2cap_recall10 = 0
+    for i, img in enumerate(tqdm(test_img_ids)):
+        img_vec = test_img_vecs[i]
+        gold_img_caps = test_df[test_df["image"] == img]["caption"].values
+        for j, cap_vec in enumerate(cap_vecs):
+            errors[j] = -np.square(np.linalg.norm(cap_vec - img_vec))
+        
+        best = test_df["caption"][np.argmin(errors)]
+        if best in gold_img_caps:
+            im2cap_recall1 += 1 / len(test_img_ids)
+
+        best_10 = np.argsort(errors)[:10]
+        num_found = 0
+        for i, idx in enumerate(best_10):
+            caption = test_df["caption"][idx]
+            if caption in gold_img_caps:
+                num_found += 1
+        r10 = num_found / len(gold_img_caps)
+        im2cap_recall10 += r10 / len(test_img_ids)
+    print("=> Recall@1:", im2cap_recall1)
+    print("=> Recall@10:", im2cap_recall10)
+
+    print("Retrieving images based on captions...")
+    errors = np.zeros(len(test_img_ids))
+    cap2im_recall1 = 0
+    cap2im_recall10 = 0
+    for i, gold_image_name in enumerate(tqdm(test_df["image"])):
+        cap_vec = cap_vecs[i]
+        for j, img_vec in enumerate(test_img_vecs):
+            errors[j] = -np.square(np.linalg.norm(cap_vec - img_vec))
+
+        img_name = test_img_ids[np.argmin(errors)]
+        if img_name == gold_image_name:
+            cap2im_recall1 += 1 / len(test_df)
+
+        best_10 = np.argsort(errors)[:10]
+        found = 0
+        for idx in best_10:
+            img_name = test_img_ids[idx]
+            if img_name == gold_image_name:
+                found = 1
+                break
+        cap2im_recall10 += found / len(test_df)
+     
+    print("=> Recall@1:", cap2im_recall1)
+    print("=> Recall@10:", cap2im_recall10)
+
+    return (im2cap_recall1, im2cap_recall10), (cap2im_recall1, cap2im_recall10)
+
+def evaluate_sample(model, transform, vectorizer):
+    # Custom sample
+    sample_df = pd.read_csv("sample.txt")
+
+    # Sample a caption and compute its combined-space embedding vector
+    caption = sample_df.iloc[0]["caption"]
+    embedded_caption = vectorizer(caption).unsqueeze(1).to(device)
+    cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
+
+    # For each of the images compute the combined-space embedding vectors
+    # Calculate the distance to the caption vector (KNN)
+    img_ids = sample_df["image"].unique()
+    errors = np.zeros(len(img_ids))
+    for i, img_id in enumerate(img_ids):
+        img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
+        img_transformed = transform(img).unsqueeze(0).to(device)
+        img_vec = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
+        
+        errors[i] = -np.square(np.linalg.norm(cap_vec - img_vec))
+    
+    min_idx = np.argmin(errors)
+    print("Arg min:", min_idx)
+    print("Best image:", img_ids[min_idx])
+    
+    print("Top 10:")
+    best_10 = np.argsort(errors)[:10]
+    for i, idx in enumerate(best_10):
+        print(i, img_ids[idx], errors[idx])
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train", action="store_true", help="train model")
@@ -140,69 +178,27 @@ def main():
     parser.add_argument("--batch", type=int, default=128, help="batch size")
     parser.add_argument("--margin", type=float, default=0.1, help="margin contrastive loss")
     parser.add_argument("--hidden", type=int, default=1024, help="embedding vector size")
+    parser.add_argument("--threshold", type=int, default=4, help="vocab threshold")
     args = parser.parse_args()
 
     print("Margin:", args.margin)
     print("Batch size:", args.batch)
     print("Final vec size:", args.hidden)
-
-    captions = pd.read_csv("flickr8k/captions_train.txt")
-    tokenized_captions = list()
-    freq_dict = dict()
     
-    # Analyse caption vocab
-    for image, caption in captions.values:
-        tokens = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
-        for token in tokens:
-            if token in freq_dict:
-                freq_dict[token] += 1
-            else:
-                freq_dict[token] = 1
+    captions = pd.read_csv("flickr8k/captions_train.txt")["caption"]
+    vectorizer = CaptionVectorizer()
+    vectorizer.generate_embedding(captions, args.threshold)
+    embedding_size = vectorizer.embedding_size
 
-        tokenized_captions.append(tokens)
-    
-    glove = KeyedVectors.load_word2vec_format("glove.6B.100d.bin.word2vec", binary=True)
-
-    # Truncate vocab
-    vocab = set()
-    for key,value in freq_dict.items():
-        if value >= 4 and key in glove:
-            vocab.add(key)
-    
-    # Build word index
-    words = list(vocab)
-    words.extend(["<SOS>", "<EOS>", "<UNK>", "<PAD>"])
-    print("Actual vocab size:",len(freq_dict.keys()))
-    print("Truncated vocab size:", len(words))
-
-    w2i = { w:i for i,w in enumerate(words) }
-    i2w = { i:w for i,w in enumerate(words) }
-    
-    # Load glove embedding for the word in the vocabulary
-    k = glove.vector_size
-    embedding_size = glove.vector_size+4
-    embedding = np.zeros((len(words), embedding_size))
-    for i, word in enumerate(words):
-        if word in glove:
-            embedding[i] = np.concatenate((glove[word], np.zeros(4)))
-        else:
-            embedding[i] = np.zeros(embedding_size)
-            embedding[i][k] = 1
-            k += 1
-
-    # Hyper parameters
-    batch_size = args.batch
-    hidden_size = args.hidden
-    
     # Flickr dataset loading
     transform = transforms.Compose([
         transforms.Resize((224,224)),
         transforms.ToTensor()])
-    flickr = FlickrDataset("flickr8k/images", "flickr8k/captions_train.txt", embedding, w2i, transform)
-    loader = DataLoader(dataset=flickr, batch_size=batch_size, shuffle=True, collate_fn=Collate(w2i["<PAD>"]))
+    flickr = FlickrDataset("flickr8k/images", "flickr8k/captions_train.txt", vectorizer, transform)
+    loader = DataLoader(dataset=flickr, batch_size=args.batch, shuffle=True, collate_fn=Collate(vectorizer.w2i["<PAD>"]))
     
     # Model, loss and optimizer definition
-    model = MultiModalModel(embedding_size, hidden_size, bidirectional=True).to(device)
+    model = MultiModalModel(embedding_size, args.hidden, bidirectional=True).to(device)
     optimizer = optim.Adam(model.parameters())
     criterion = ContrastiveLoss(margin=args.margin)
     
@@ -216,7 +212,7 @@ def main():
         k = 0
 
         running_loss = 0
-        target = torch.zeros(batch_size, 2)
+        target = torch.zeros(args.batch, 2)
         for epoch in range(j,j+24):
             print("Epoch:", epoch)
             for i, x in enumerate(loader):
@@ -240,102 +236,8 @@ def main():
     else:
         model.eval()
         model.load_state_dict(torch.load("bin/model_22.pth"))
- 
-        # Test set
-        test_df = pd.read_csv("flickr8k/captions_test.txt").sample(1000).reset_index(drop=True)
-        test_img_ids = test_df["image"].unique()
-        test_img_vecs = np.zeros((len(test_img_ids), hidden_size))
-        print("Computing image vectors...")
-        for i, img_id in enumerate(tqdm(test_img_ids)):
-            img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
-            img_transformed = transform(img).unsqueeze(0).to(device)
-            test_img_vecs[i] = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
-    
-        print("Computing caption vectors...")
-        cap_vecs = np.zeros((len(test_df), hidden_size))
-        for i, caption in enumerate(tqdm(test_df["caption"])):
-            tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
-            embedded_caption = embed_caption(embedding, w2i, tokenized_caption).unsqueeze(1)
-            cap_vecs[i] = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
-
-        print("Retrieving captions based on images...")
-        errors = np.zeros(len(test_df))
-        recall1 = 0
-        recall10 = 0
-        for i, img in enumerate(tqdm(test_img_ids)):
-            img_vec = test_img_vecs[i]
-            gold_img_caps = test_df[test_df["image"] == img]["caption"].values
-            for j, cap_vec in enumerate(cap_vecs):
-                errors[j] = -np.square(np.linalg.norm(cap_vec - img_vec))
-            
-            best = test_df["caption"][np.argmin(errors)]
-            if best in gold_img_caps:
-                recall1 += 1 / len(test_img_ids)
-
-            best_10 = np.argsort(errors)[:10]
-            num_found = 0
-            for i, idx in enumerate(best_10):
-                caption = test_df["caption"][idx]
-                if caption in gold_img_caps:
-                    num_found += 1
-            r10 = num_found / len(gold_img_caps)
-            recall10 += r10 / len(test_img_ids)
-        print("=> Recall@1:", recall1)
-        print("=> Recall@10:", recall10)
-
-        print("Retrieving images based on captions...")
-        errors = np.zeros(len(test_img_ids))
-        recall1 = 0
-        recall10 = 0
-        for i, gold_image_name in enumerate(tqdm(test_df["image"])):
-            cap_vec = cap_vecs[i]
-            for j, img_vec in enumerate(test_img_vecs):
-                errors[j] = -np.square(np.linalg.norm(cap_vec - img_vec))
-
-            img_name = test_img_ids[np.argmin(errors)]
-            if img_name == gold_image_name:
-                recall1 += 1 / len(test_df)
-
-            best_10 = np.argsort(errors)[:10]
-            found = 0
-            for idx in best_10:
-                img_name = test_img_ids[idx]
-                if img_name == gold_image_name:
-                    found = 1
-                    break
-            recall10 += found / len(test_df)
-         
-        print("=> Recall@1:", recall1)
-        print("=> Recall@10:", recall10)
-
-        # Custom sample
-        sample_df = pd.read_csv("sample.txt")
-
-        # Sample a caption and compute its combined-space embedding vector
-        caption = sample_df.iloc[0]["caption"]
-        tokenized_caption = [tok.text for tok in spacy_eng.tokenizer(caption.lower())]
-        embedded_caption = embed_caption(embedding, w2i, tokenized_caption).unsqueeze(1)
-        cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
-    
-        # For each of the images compute the combined-space embedding vectors
-        # Calculate the distance to the caption vector (KNN)
-        img_ids = sample_df["image"].unique()
-        errors = np.zeros(len(img_ids))
-        for i, img_id in enumerate(img_ids):
-            img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
-            img_transformed = transform(img).unsqueeze(0).to(device)
-            img_vec = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
-            
-            errors[i] = -np.square(np.linalg.norm(cap_vec - img_vec))
-        
-        min_idx = np.argmin(errors)
-        print("Arg min:", min_idx)
-        print("Best image:", img_ids[min_idx])
-        
-        print("Top 10:")
-        best_10 = np.argsort(errors)[:10]
-        for i, idx in enumerate(best_10):
-            print(i, img_ids[idx], errors[idx])
+        evaluate(model, transform, vectorizer)
+        evaluate_sample(model, transform, vectorizer)
 
 if __name__ == "__main__":
     main()
