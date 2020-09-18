@@ -12,6 +12,7 @@ import os
 import argparse
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
+from pathlib import Path
 
 from model import MultiModalModel
 from vectorizer import CaptionVectorizer
@@ -187,7 +188,14 @@ def main():
     
     captions = pd.read_csv("flickr8k/captions_train.txt")["caption"]
     vectorizer = CaptionVectorizer()
-    vectorizer.generate_embedding(captions, args.threshold)
+    path = Path("bin/embedding.pkl")
+    if path.exists():
+        print("Loading embedding from file...")
+        vectorizer.load_embedding(path)
+    else:
+        print("Generating embedding...")
+        vectorizer.generate_embedding(captions, args.threshold)
+        vectorizer.write_embedding(path)
     embedding_size = vectorizer.embedding_size
 
     # Flickr dataset loading
