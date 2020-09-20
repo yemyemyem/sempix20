@@ -3,7 +3,7 @@ import pandas as pd
 import torch.nn as nn
 import torch.optim as optim
 import torchvision.transforms as transforms
-from get_loader import get_dataset
+from utilities import get_dataset
 from pl_model import CaptionGenerator, FlickrDataModule
 import pytorch_lightning as pl
 import os

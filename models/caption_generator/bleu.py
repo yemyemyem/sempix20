@@ -7,8 +7,9 @@ import numpy as np
 
 class BLEU():
     def __init__(self, output_captions_file, weight=(.25, .25, .25, .25)):
+        
         #This file contains a dictionary form of the gold captions for the testing dataset.
-        with open('../data/gold_dict_testing.pkl', 'rb') as output:
+        with open('../../data/caption_generator/gold_dict_testing.pkl', 'rb') as output:
             self.gold_dict = pickle.load(output)
         self.output_captions_file = output_captions_file
         self.weight = weight

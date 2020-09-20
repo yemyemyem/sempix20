@@ -5,7 +5,7 @@ import statistics
 import torchvision.models as models
 import pytorch_lightning as pl
 import en_core_web_sm
-from get_loader import get_dataset, MyCollate
+from utilities import get_dataset, MyCollate
 import torch.optim as optim
 import os  # when loading file paths
 import pandas as pd  # for lookup in annotation file
@@ -30,8 +30,8 @@ class FlickrDataModule(pl.LightningDataModule):
 
     def setup(self, stage = None):
         
-        self.root_folder = "../data/flickr8k/images"
-        self.annotation_file = "../data/flickr8k/training_captions.txt"
+        self.root_folder = "../../data/flickr8k/images"
+        self.annotation_file = "../../data/flickr8k/training_captions.txt"
         
         #transform needed for inputing images into inception
         self.transform = transforms.Compose(

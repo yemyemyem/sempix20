@@ -7,8 +7,7 @@ import pandas as pd
 import numpy as np
 import os
 from pl_model import CaptionGenerator, FlickrDataModule
-#from pl_model import CaptionGenerator, FlickrDataModule
-from get_loader import get_dataset
+from utilities import get_dataset
 import torchvision.transforms as transforms
 
 def main(hparams, cluster):
@@ -20,8 +19,8 @@ def main(hparams, cluster):
     dm.setup()
     # each trial has a separate version number which can be accessed from the cluster
     train, pad_idx = get_dataset(
-                            "../data/flickr8k/images",
-                            "../data/flickr8k/training_captions.txt",
+                            "../../data/flickr8k/images",
+                            "../../data/flickr8k/training_captions.txt",
                             dm.transform)
     vocab_size = len(train.vocab)
     
@@ -37,7 +36,7 @@ def main(hparams, cluster):
 
 
 
-    logger = TensorBoardLogger(save_dir = '.', version = cluster.hpc_exp_number, name = 'lightning_logs')
+    logger = TensorBoardLogger(save_dir = '../../data/caption_generator/', version = cluster.hpc_exp_number, name = 'lightning_logs')
 
     trainer = Trainer(logger = logger,
                     gpus = 2,

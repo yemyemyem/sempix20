@@ -8,14 +8,7 @@ from PIL import Image  # Load img
 import torchvision.transforms as transforms
 
 
-# We want to convert text -> numerical values
-# 1. We need a Vocabulary mapping each word to a index
-# 2. We need to setup a Pytorch dataset to load the data
-# 3. Setup padding of every batch (all examples should be
-#    of same seq_len and setup dataloader)
-# Note that loading the image is very easy compared to the text!
-
-# Download with: python -m spacy download en
+# If running for the first time, download model with: python -m spacy download en
 spacy_eng = spacy.load("en")
 
 
@@ -118,83 +111,6 @@ def get_dataset(
 
     return dataset, pad_idx
 
-def get_loader(
-    root_folder,
-    annotation_file,
-    transform,
-    batch_size=32,
-    num_workers=8,
-    shuffle=True,
-    pin_memory=True,
-):
-    dataset = FlickrDataset(root_folder, annotation_file, transform=transform)
-
-    pad_idx = dataset.vocab.stoi["<PAD>"]
-
-    loader = DataLoader(
-        dataset=dataset,
-        batch_size=batch_size,
-        num_workers=num_workers,
-        shuffle=shuffle,
-        pin_memory=pin_memory,
-        collate_fn=MyCollate(pad_idx=pad_idx),
-    )
-
-    return loader, dataset
-
-
-def print_examples(model, dataset):
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    transform = transforms.Compose(
-        [
-            transforms.Resize((299, 299)),
-            transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-        ]
-    )
-
-    model.eval()
-    test_img1 = transform(Image.open("../data/test_examples/dog.jpg").convert("RGB")).unsqueeze(
-        0
-    )
-    print("Example 1 CORRECT: Dog on a beach by the ocean")
-    print(
-        "Example 1 OUTPUT: "
-        + " ".join(model.caption_image(test_img1.to(device), dataset.vocab))
-    )
-    test_img2 = transform(
-        Image.open("../data/test_examples/child.jpg").convert("RGB")
-    ).unsqueeze(0)
-    print("Example 2 CORRECT: Child holding red frisbee outdoors")
-    print(
-        "Example 2 OUTPUT: "
-        + " ".join(model.caption_image(test_img2.to(device), dataset.vocab))
-    )
-    test_img3 = transform(Image.open("../data/test_examples/bus.png").convert("RGB")).unsqueeze(
-        0
-    )
-    print("Example 3 CORRECT: Bus driving by parked cars")
-    print(
-        "Example 3 OUTPUT: "
-        + " ".join(model.caption_image(test_img3.to(device), dataset.vocab))
-    )
-    test_img4 = transform(
-        Image.open("../data/test_examples/boat.png").convert("RGB")
-    ).unsqueeze(0)
-    print("Example 4 CORRECT: A small boat in the ocean")
-    print(
-        "Example 4 OUTPUT: "
-        + " ".join(model.caption_image(test_img4.to(device), dataset.vocab))
-    )
-    test_img5 = transform(
-        Image.open("../data/test_examples/horse.png").convert("RGB")
-    ).unsqueeze(0)
-    print("Example 5 CORRECT: A cowboy riding a horse in the desert")
-    print(
-        "Example 5 OUTPUT: "
-        + " ".join(model.caption_image(test_img5.to(device), dataset.vocab))
-    )
 
 def get_examples(model, dataset):
 
