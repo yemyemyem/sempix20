@@ -156,35 +156,6 @@ def evaluate(model, transform, vectorizer, sample_size=1000, val=False):
     cap2im = (cap2im_recall1, cap2im_recall10, mean_rank, median_rank)
     return im2cap, cap2im
 
-def evaluate_sample(model, transform, vectorizer):
-    # Custom sample
-    sample_df = pd.read_csv("sample.txt")
-
-    # Sample a caption and compute its combined-space embedding vector
-    caption = sample_df.iloc[0]["caption"]
-    embedded_caption = vectorizer(caption).unsqueeze(1).to(device)
-    cap_vec = model.forward_cap(embedded_caption).squeeze(0).cpu().detach().numpy()
-
-    # For each of the images compute the combined-space embedding vectors
-    # Calculate the distance to the caption vector (KNN)
-    img_ids = sample_df["image"].unique()
-    errors = np.zeros(len(img_ids))
-    for i, img_id in enumerate(img_ids):
-        img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
-        img_transformed = transform(img).unsqueeze(0).to(device)
-        img_vec = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
-        
-        errors[i] = -np.square(np.linalg.norm(cap_vec - img_vec))
-    
-    min_idx = np.argmin(errors)
-    print("Arg min:", min_idx)
-    print("Best image:", img_ids[min_idx])
-    
-    print("Top 10:")
-    best_10 = np.argsort(errors)[:10]
-    for i, idx in enumerate(best_10):
-        print(i, img_ids[idx], errors[idx])
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train", action="store_true", help="train model")
@@ -266,9 +237,8 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_24.pth"))
+        model.load_state_dict(torch.load("bin/model_23.pth"))
         evaluate(model, transform, vectorizer)
-        evaluate_sample(model, transform, vectorizer)
 
 if __name__ == "__main__":
     main()
