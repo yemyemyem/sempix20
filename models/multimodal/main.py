@@ -74,9 +74,9 @@ class ContrastiveLoss:
         cost.fill_diagonal_(0)
         return cost.sum()
 
-def evaluate(model, transform, vectorizer, sample_size=1000):
-    # Test set
-    test_df = pd.read_csv("flickr8k/captions_test.txt").sample(sample_size).reset_index(drop=True)
+def evaluate(model, transform, vectorizer, sample_size=1000, val=False):
+    set_type = "val" if val else "test"
+    test_df = pd.read_csv(f"flickr8k/captions_k{set_type}.txt").sample(sample_size).reset_index(drop=True)
     test_img_ids = test_df["image"].unique()
     test_img_vecs = np.zeros((len(test_img_ids), model.hidden_dim))
     print("Computing image vectors...")
@@ -145,12 +145,16 @@ def evaluate(model, transform, vectorizer, sample_size=1000):
                 break
         cap2im_recall10 += found / len(test_df)
     
+    mean_rank = ranks.mean() + 1
+    median_rank = np.median(ranks) + 1
     print("=> Recall@1:", cap2im_recall1)
     print("=> Recall@10:", cap2im_recall10)
-    print("=> Mean rank:", ranks.mean() + 1)
-    print("=> Median rank:", np.median(ranks) + 1)
+    print("=> Mean rank:", mean_rank)
+    print("=> Median rank:", median_rank)
 
-    return (im2cap_recall1, im2cap_recall10), (cap2im_recall1, cap2im_recall10)
+    im2cap = (im2cap_recall1, im2cap_recall10)
+    cap2im = (cap2im_recall1, cap2im_recall10, mean_rank, median_rank)
+    return im2cap, cap2im
 
 def evaluate_sample(model, transform, vectorizer):
     # Custom sample
@@ -195,7 +199,7 @@ def main():
     print("Batch size:", args.batch)
     print("Final vec size:", args.hidden)
     
-    captions = pd.read_csv("flickr8k/captions_train.txt")["caption"]
+    captions = pd.read_csv("flickr8k/captions_ktrain.txt")["caption"]
     vectorizer = CaptionVectorizer()
     path = Path("bin/embedding.pkl")
     if path.exists():
@@ -247,12 +251,22 @@ def main():
 
                 writer.add_scalar("loss", loss.item(), k)
                 k += 1
+            
+            model.eval()
+            im2cap, cap2im = evaluate(model, transform, vectorizer, val=True)
+            writer.add_scalar("im2cap::Recall@1", im2cap[0], epoch)
+            writer.add_scalar("im2cap::Recall@10", im2cap[1], epoch)
+            writer.add_scalar("cap2im::Recall@1", cap2im[0], epoch)
+            writer.add_scalar("cap2im::Recall@10", cap2im[1], epoch)
+            writer.add_scalar("cap2im::MeanRank", cap2im[2], epoch)
+            writer.add_scalar("cap2im::MedianRank", cap2im[3], epoch)
+            model.train()
 
             torch.save(model.state_dict(), f"bin/model_{epoch}.pth")
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_22.pth"))
+        model.load_state_dict(torch.load("bin/model_24.pth"))
         evaluate(model, transform, vectorizer)
         evaluate_sample(model, transform, vectorizer)
 
