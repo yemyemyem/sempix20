@@ -18,6 +18,7 @@ from model import MultiModalModel
 from vectorizer import CaptionVectorizer
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+root = Path("../../data")
 
 class FlickrDataset(Dataset):
     def __init__(self, root_dir, captions_file, vectorizer, transform):
@@ -76,12 +77,15 @@ class ContrastiveLoss:
 
 def evaluate(model, transform, vectorizer, sample_size=1000, val=False):
     set_type = "val" if val else "test"
-    test_df = pd.read_csv(f"flickr8k/captions_k{set_type}.txt").sample(sample_size).reset_index(drop=True)
+    caption_path = root / f"flickr8k/captions_{set_type}.txt"
+    image_path = root / "flickr8k/images"
+
+    test_df = pd.read_csv(caption_path).sample(sample_size).reset_index(drop=True)
     test_img_ids = test_df["image"].unique()
     test_img_vecs = np.zeros((len(test_img_ids), model.hidden_dim))
     print("Computing image vectors...")
     for i, img_id in enumerate(tqdm(test_img_ids)):
-        img = Image.open(os.path.join("flickr8k/images", img_id)).convert("RGB")
+        img = Image.open(image_path / img_id).convert("RGB")
         img_transformed = transform(img).unsqueeze(0).to(device)
         test_img_vecs[i] = model.forward_cnn(img_transformed).squeeze(0).cpu().detach().numpy()
 
@@ -170,7 +174,10 @@ def main():
     print("Batch size:", args.batch)
     print("Final vec size:", args.hidden)
     
-    captions = pd.read_csv("flickr8k/captions_ktrain.txt")["caption"]
+    caption_path = root / "flickr8k/captions_train.txt"
+    image_path = root / "flickr8k/images"
+
+    captions = pd.read_csv(caption_path)["caption"]
     vectorizer = CaptionVectorizer()
     path = Path("bin/embedding.pkl")
     if path.exists():
@@ -186,7 +193,7 @@ def main():
     transform = transforms.Compose([
         transforms.Resize((224,224)),
         transforms.ToTensor()])
-    flickr = FlickrDataset("flickr8k/images", "flickr8k/captions_train.txt", vectorizer, transform)
+    flickr = FlickrDataset(image_path, caption_path, vectorizer, transform)
     loader = DataLoader(dataset=flickr, batch_size=args.batch, shuffle=True, collate_fn=Collate(vectorizer.w2i["<PAD>"]))
     
     # Model, loss and optimizer definition
@@ -237,7 +244,7 @@ def main():
             print(f"Saved to: bin/model_{epoch}.pth")
     else:
         model.eval()
-        model.load_state_dict(torch.load("bin/model_23.pth"))
+        model.load_state_dict(torch.load("bin/model_22.pth"))
         evaluate(model, transform, vectorizer)
 
 if __name__ == "__main__":

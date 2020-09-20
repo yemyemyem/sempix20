@@ -18,7 +18,7 @@ The contrastive loss enforces correct instances to have a penalty of zero and in
 
 ### Training
 
-Before training the model, setup the flickr dataset with `flickr_split.py` and
+Before training the model, setup the flickr dataset with `ksplit.py` and
 convert the GloVe embeddings using `glove_conv.py`.
 
 Then, you can train via
