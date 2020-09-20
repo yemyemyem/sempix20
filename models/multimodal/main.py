@@ -120,7 +120,7 @@ def evaluate(model, transform, vectorizer, sample_size=1000):
     errors = np.zeros(len(test_img_ids))
     cap2im_recall1 = 0
     cap2im_recall10 = 0
-    mean_r = 0
+    ranks = np.zeros(len(test_df))
     for i, gold_image_name in enumerate(tqdm(test_df["image"])):
         cap_vec = cap_vecs[i]
         for j, img_vec in enumerate(test_img_vecs):
@@ -129,10 +129,14 @@ def evaluate(model, transform, vectorizer, sample_size=1000):
         img_name = test_img_ids[np.argmin(errors)]
         if img_name == gold_image_name:
             cap2im_recall1 += 1 / len(test_df)
+    
+        sorted_errors = np.argsort(errors)
 
-        mean_r += test_img_ids.iloc[test_img_ids == gold_image_name] / len(test_df)
+        ground_truth_index = np.where(test_img_ids == gold_image_name)[0][0]
+        ground_truth_rank = np.where(sorted_errors == ground_truth_index)[0][0]
+        ranks[i] = ground_truth_rank
 
-        best_10 = np.argsort(errors)[:10]
+        best_10 = sorted_errors[:10]
         found = 0
         for idx in best_10:
             img_name = test_img_ids[idx]
@@ -143,9 +147,10 @@ def evaluate(model, transform, vectorizer, sample_size=1000):
     
     print("=> Recall@1:", cap2im_recall1)
     print("=> Recall@10:", cap2im_recall10)
-    print("=> Mean rank:", mean_r)
+    print("=> Mean rank:", ranks.mean() + 1)
+    print("=> Median rank:", np.median(ranks) + 1)
 
-    return (im2cap_recall1, im2cap_recall10), (cap2im_recall1, cap2im_recall10, mean_r)
+    return (im2cap_recall1, im2cap_recall10), (cap2im_recall1, cap2im_recall10)
 
 def evaluate_sample(model, transform, vectorizer):
     # Custom sample
