@@ -41,7 +41,7 @@ def main(hparams, cluster):
     trainer = Trainer(logger = logger,
                     gpus = 2,
                     num_nodes = 13,
-                    max_epochs = 300,
+                    max_epochs = 1000,
                     auto_select_gpus = True,
                     profiler = True,
                     distributed_backend='ddp',
@@ -66,7 +66,7 @@ def optimize_on_cluster(hyperparams):
     cluster.add_slurm_cmd(cmd = 'partition', value = 'gpu2', comment = 'queue')
 
     cluster.add_slurm_cmd(cmd = 'ntasks-per-node', value='2', comment = 'Tasks per node')
-    cluster.job_time = '0-06:00:00'
+    cluster.job_time = '0-17:00:00'
 
     # email for cluster coms
     cluster.add_slurm_cmd('mail-type', value = 'all', comment = 'Mail type')
