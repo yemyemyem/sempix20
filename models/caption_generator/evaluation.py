@@ -28,12 +28,12 @@ transform = transforms.Compose(
 
 dataset, pad_idx = get_dataset(
                             '../../data/flickr8k/images',
-                            '../../data/flickr8k/training_captions.txt',
+                            '../../data/flickr8k/training_captions.csv',
                             transform)
 
 test, pad_idx = get_dataset(
                         "../../data/flickr8k/images",
-                        "../../data/testing_captions.csv",
+                        "../../data/caption_generator/testing_captions.csv",
                         transform)
 
 
@@ -47,23 +47,23 @@ for name in file_names:
 def model_eval(epoch_file):
     print('=============================================')
     print()
-    model_version_number = epoch_file.split('/')[1].split('_')[1]
+    model_version_number = epoch_file.split('/')[5].split('_')[1]
     print('Testing model version: ', model_version_number)
 
     model = CaptionGenerator.load_from_checkpoint(checkpoint_path = epoch_file, pad_idx = pad_idx)
     model.eval()
 
-    with open(r'lightning_logs/version_'+model_version_number+'/hparams.yaml') as file:
+    with open(r'../../data/caption_generator/lightning_logs/version_'+model_version_number+'/hparams.yaml') as file:
         parameters = yaml.load(file, Loader = yaml.FullLoader)
     print('With parameters: ', parameters)
 
-    captions = [" ".join(model.caption_image(image, dataset.vocab)[1:-1]) for image in imgs]
+    #captions = [" ".join(model.caption_image(image, dataset.vocab)[1:-1]) for image in imgs]
 
     # Putting the file names and their corresponding captions together in a DataFrame to then save as .tsv
-    df = pd.DataFrame(data = {'image':file_names, 'caption':captions})
-    df.to_csv('../data/version_'+model_version_number+'_outputs.tsv', index = False, sep = '\t')
+    #df = pd.DataFrame(data = {'image':file_names, 'caption':captions})
+    #df.to_csv('../../data/caption_generator/version_'+model_version_number+'_outputs.tsv', index = False, sep = '\t')
 
-    evaluation = BLEU('../data/version_'+model_version_number+'_outputs.tsv')
+    evaluation = BLEU('../../data/caption_generator/version_'+model_version_number+'_outputs.tsv')
     azul = evaluation.get_bleu_score()
 
     examples = get_examples(model, dataset)
@@ -91,15 +91,15 @@ for num in version_numbers:
     epoch_path = '../../data/caption_generator/lightning_logs/version_' + num + '/checkpoints/'
     epoch_files.append(epoch_path+os.listdir(epoch_path)[0])
 
-
 #Running evaluation and saving relevant data in a dictionary with key:pairs as model_version_number:[mean_smooth, mean_l1, mean_mse]
 results = {}
+
 
 for epoch_file in epoch_files:
     number, params, azul, examples = model_eval(epoch_file)
     results[int(number)] = {'parameters': params, 'bleu':azul, 'examples': examples}
 
-with open('evaluation_results.pkl', 'wb') as input:
+with open('evaluation_results_finalModel.pkl', 'wb') as input:
     pickle.dump(results, input)
 
 #with open('evaluation_results.pkl', 'rb') as input:

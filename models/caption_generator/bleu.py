@@ -6,6 +6,10 @@ import pandas as pd
 import numpy as np
 
 class BLEU():
+    '''
+    This class receives a model's output captions from the test set and has methods to generate its average BLEU-4 score using nltk's corresponding functions.
+    '''
+    
     def __init__(self, output_captions_file, weight=(.25, .25, .25, .25)):
         
         #This file contains a dictionary form of the gold captions for the testing dataset.
@@ -18,6 +22,9 @@ class BLEU():
             self.df_output = pd.read_csv(f, sep='\t')
 
     def make_dict(self, df):
+        '''
+        Convert df into the dictionary form we will use to retrieve BLEU scores.
+        '''
         d = {}
         try:
             for image in df['image']:
@@ -49,14 +56,14 @@ class BLEU():
 
     def get_bleu_score(self):
         '''
-
-        returns average of BLEU-4 score over all output captions
-
+        Returns average of BLEU-4 score over all output captions
         '''
         bleu_dict = self.make_bleu_dict()
         scores = np.fromiter(bleu_dict.values(), dtype=float)
 
         return np.mean(scores)
+
+# Utilization example:
 
 # azul = BLEU('captions.txt', 'tiny_output_captions.txt')
 

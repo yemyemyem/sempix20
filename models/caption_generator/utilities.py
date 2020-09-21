@@ -124,28 +124,28 @@ def get_examples(model, dataset):
     )
 
     model.eval()
-    test_img1 = transform(Image.open("../data/test_examples/race_car.jpg").convert("RGB")).unsqueeze(
+    test_img1 = transform(Image.open("../../data/caption_generator/test_examples/race_car.jpg").convert("RGB")).unsqueeze(
         0
     )
     ex1 = " ".join(model.caption_image(test_img1.to(device), dataset.vocab))
 
     test_img2 = transform(
-        Image.open("../data/test_examples/kayak.jpg").convert("RGB")
+        Image.open("../../data/caption_generator/test_examples/kayak.jpg").convert("RGB")
     ).unsqueeze(0)
     ex2 = " ".join(model.caption_image(test_img2.to(device), dataset.vocab))
 
-    test_img3 = transform(Image.open("../data/test_examples/tennis.jpg").convert("RGB")).unsqueeze(
+    test_img3 = transform(Image.open("../../data/caption_generator/test_examples/tennis.jpg").convert("RGB")).unsqueeze(
         0
     )
     ex3 = " ".join(model.caption_image(test_img3.to(device), dataset.vocab))
 
     test_img4 = transform(
-        Image.open("../data/test_examples/scuba.jpg").convert("RGB")
+        Image.open("../../data/caption_generator/test_examples/scuba.jpg").convert("RGB")
     ).unsqueeze(0)
     ex4 = " ".join(model.caption_image(test_img4.to(device), dataset.vocab))
 
     test_img5 = transform(
-        Image.open("../data/test_examples/bird.jpg").convert("RGB")
+        Image.open("../../data/caption_generator/test_examples/bird.jpg").convert("RGB")
     ).unsqueeze(0)
     ex5 = " ".join(model.caption_image(test_img5.to(device), dataset.vocab))
 
