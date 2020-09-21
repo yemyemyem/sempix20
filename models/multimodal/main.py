@@ -8,7 +8,6 @@ from torch.nn.utils.rnn import pad_sequence
 import numpy as np
 import pandas as pd
 from PIL import Image
-import os
 import argparse
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
@@ -36,7 +35,7 @@ class FlickrDataset(Dataset):
 
     def __getitem__(self, index):
         img_id = self.imgs[index]
-        img = Image.open(os.path.join(self.root_dir, img_id)).convert("RGB")
+        img = Image.open(self.root_dir / img_id).convert("RGB")
         out_img = self.transform(img).to(device)
             
         caption = self.captions[index]
