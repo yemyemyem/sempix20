@@ -1,0 +1,5 @@
+batch_size: 32
+embed_size: 150
+hidden_size: 250
+num_layers: 2
+vocab_size: 3068
