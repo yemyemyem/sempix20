@@ -18,7 +18,7 @@ The contrastive loss enforces correct instances to have a penalty of zero and in
 
 ### Training
 
-Before training the model, setup the flickr dataset with `ksplit.py` and
+Before training the model, setup the flickr dataset with `flickr_split.py` and
 convert the GloVe embeddings using `glove_conv.py`.
 
 Then, you can train via
@@ -27,9 +27,10 @@ Then, you can train via
 python3 main.py --train
 ```
 
+Weights and embedding information will be stored in a folder named bin.
+
 ### Evaluation
 
-You can generate a random sample using `subset.py`.
 Run the `main.py` script without the training flag.
 The recall will be computed for image to caption and vice versa.
 
@@ -40,10 +41,3 @@ Current results:
 | Recall@1  | 0.32                    | 0.29                    |
 | Recall@10 | 0.74                    | 0.73                    |
 
-### Hyperparameters:
-
-* Margin
-* Batch size
-* GloVe vector size
-* Shared space embedding size
-* Adam learning rate
