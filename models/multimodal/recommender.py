@@ -15,7 +15,18 @@ class ImageRecommender:
         self.model.load_state_dict(torch.load(weights_path))
         self.model.eval()
 
-    def search_image(self, caption, images):
+    def search_image(self, caption, images, topk=1):
+        """Searches for an image begin described by the caption.
+
+        Args:
+            caption: Caption that should describe the image
+            images: A list of image tensors
+            topk: Returns the top-K elements
+
+        Returns:
+            Single index or list of indices of images being described by the caption
+        """
+
         embd_cap = self.vectorizer(caption).unsqueeze(1)
         cap_vec = self.model.forward_cap(embd_cap).squeeze(0)
 
@@ -25,7 +36,10 @@ class ImageRecommender:
             diff = cap_vec - img_vec
             errors[i] = -torch.dot(diff, diff)
 
-        return torch.argmin(errors).item()
+        if topk == 1:
+            return torch.argmin(errors).item()
+        else:
+            return torch.argsort(errors)[:topk]
 
 def main():
     images = [torch.rand(3, 224, 224), torch.rand(3, 224,224), torch.rand(3, 224,244)]

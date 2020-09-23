@@ -12,6 +12,13 @@ class CaptionVectorizer:
         self.spacy_eng = spacy.load("en")
 
     def generate_embedding(self, captions, threshold):
+        """Generates a vocabulary with matrix embedding.
+
+        Args:
+            captions: A list of captions
+            threshold: Cut-off threshold for words
+        """
+
         glove = KeyedVectors.load_word2vec_format("glove.6B.100d.bin.word2vec", binary=True)
         freq_dict = dict()
 

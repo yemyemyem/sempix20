@@ -75,6 +75,7 @@ class ContrastiveLoss:
         return cost.sum()
 
 def evaluate(model, transform, vectorizer, sample_size=1000, val=False):
+    """Evaluates the given model on the specified set."""
     set_type = "val" if val else "test"
     caption_path = root / f"flickr8k/captions_{set_type}.txt"
     image_path = root / "flickr8k/images"
