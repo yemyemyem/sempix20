@@ -45,17 +45,17 @@ with open('../../data/levels.pkl', 'rb') as input:
     levels = pickle.load(input)
 
 # Retrieval task for every generated level
-levels.keys()
+
 #to keep track of results
 #results = {}
 with open('ic_performance_results.pkl', 'rb') as input:
     results = pickle.load(input)
 
 #very slow, had to do this in pieces
-for n in range(10, 11):
-    results[n] = {}
+for n in range(9, 10):
+    #results[n] = {}
 
-    for c in range(1, 6):
+    for c in range(4, 6):
         results[n][c] = []
 
         for j in range(50):
@@ -98,7 +98,7 @@ for n in range(10, 11):
                     results[n][c].append(1)
                 else:
                     results[n][c].append(0)
-results[10].keys()
+results[9].keys()
 
 with open('ic_performance_results.pkl', 'wb') as input:
     pickle.dump(results, input)
