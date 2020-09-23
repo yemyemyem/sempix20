@@ -23,7 +23,7 @@ def main(hparams, cluster):
                             "../../data/flickr8k/training_captions.txt",
                             dm.transform)
     vocab_size = len(train.vocab)
-    
+
     # loading our model with this run's parameters
     model = CaptionGenerator(embed_size = hparams.embed_size,
                             hidden_size = hparams.hidden_size,
