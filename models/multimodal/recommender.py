@@ -16,6 +16,17 @@ class ImageRecommender:
         self.model.eval()
 
     def search_image(self, caption, images, topk=1):
+        """Searches for an image begin described by the caption.
+
+        Args:
+            caption: Caption that should describe the image
+            images: A list of image tensors
+            topk: Returns the top-K elements
+
+        Returns:
+            Single index or list of indices of images being described by the caption
+        """
+
         embd_cap = self.vectorizer(caption).unsqueeze(1)
         cap_vec = self.model.forward_cap(embd_cap).squeeze(0)
 

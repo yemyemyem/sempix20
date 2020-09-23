@@ -21,6 +21,7 @@ class MultiModalModel(nn.Module):
         self.linear = nn.Linear(2048, hidden_dim)
 
     def forward_cnn(self, img):
+        """Computes the forward pass of the CNN only."""
         with torch.no_grad():
             result = self.resnet50(img)
         result = result.view(result.shape[0], -1)
@@ -28,6 +29,7 @@ class MultiModalModel(nn.Module):
         return result / torch.norm(result, p=2, dim=1).view(-1,1)
 
     def forward_cap(self, cap):
+        """Computes the forward pass of the GRU only."""
         _, hidden = self.gru(cap)
         if self.bidirectional:
             hidden = hidden.unsqueeze(0)
