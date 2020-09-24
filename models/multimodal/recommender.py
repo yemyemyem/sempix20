@@ -15,6 +15,10 @@ class ImageRecommender:
         self.model.load_state_dict(torch.load(weights_path))
         self.model.eval()
 
+    def to(self, device):
+        self.model.to(device)
+        self.device = device
+
     def search_image(self, caption, images, topk=1):
         """Searches for an image begin described by the caption.
 
@@ -27,7 +31,7 @@ class ImageRecommender:
             Single index or list of indices of images being described by the caption
         """
 
-        embd_cap = self.vectorizer(caption).unsqueeze(1)
+        embd_cap = self.vectorizer(caption).unsqueeze(1).to(self.device)
         cap_vec = self.model.forward_cap(embd_cap).squeeze(0)
 
         errors = torch.zeros(len(images))
