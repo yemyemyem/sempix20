@@ -14,6 +14,7 @@ class ImageRecommender:
             hidden_size, bidirectional=True)
         self.model.load_state_dict(torch.load(weights_path))
         self.model.eval()
+        self.device = torch.device("cpu")
 
     def to(self, device):
         self.model.to(device)
