@@ -62,6 +62,7 @@ class levelGenerator():
         not_enough_images = True
         i=0
         #Randomly selecting c classes from the current testbed sample
+        #Sampling 10000 times before giving up
         while not_enough_images and i < 10000:
             cats = random.sample(self.combinations[c], 1)[0]
 
