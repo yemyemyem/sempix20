@@ -24,8 +24,12 @@ Most of our generated data can be found in the `data/` directory.<br> Heavier fi
 The versions we used from the Flickr8k and COCO val2014 data sets can be downloaded from <https://www.kaggle.com/dataset/e1cd22253a9b23b073794872bf565648ddbe4f17e7fa9e74766ad3707141adeb> and <https://cocodataset.org/#download> respectively.
 
 ### Training
-**Pytorch Lightning** makes **Pytorch** code device-independent. If you want to re-train or run some of our models in CPU, simply comment out the following arguments from the **Trainer** function:
+**Pytorch Lightning** makes **Pytorch** code device-independent. If you want to retrain or run some of our models in CPU, simply comment out the following arguments from the **Trainer** function:
 - gpus
 - num_nodes
 - auto_select_gpus
 - distributed_backend
+
+### Other
+For a quick review on how to transform **Pytorch** code into **Pytorch Lightning** models, <https://towardsdatascience.com/from-pytorch-to-pytorch-lightning-a-gentle-introduction-b371b7caaf09> is a good place to start. <br>
+If you need help adapting our models to non-SLURM computational clusters, please contact us at rodrigolpa@protonmail.com or check the official **Pytorch Lightning** documentation at <https://pytorch-lightning.readthedocs.io/en/latest/>.
