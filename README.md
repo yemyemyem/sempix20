@@ -20,8 +20,8 @@ If you want to look more closely at the scripts and models we used, see the corr
 ## Reproducibility
 
 ### Data
-Most of our generated data can be found in the `data/` directory.<br> Heavier files like our neural network's weights and checkpoints can be downloaded from <https://drive.google.com/drive/folders/1UK1CIVG-ASd9VSmCN0_hYsaUsB3drJWK?usp=sharing>. <br>
-The versions we used from the Flickr8k and COCO val2014 data sets can be downloaded from <https://www.kaggle.com/dataset/e1cd22253a9b23b073794872bf565648ddbe4f17e7fa9e74766ad3707141adeb> and <https://cocodataset.org/#download> respectively.
+Most of our generated data can be found in the `data/` directory.<br> Heavier files like our neural network's weights and checkpoints can be downloaded from [here](https://drive.google.com/drive/folders/1UK1CIVG-ASd9VSmCN0_hYsaUsB3drJWK?usp=sharing>). <br>
+The versions we used from the Flickr8k and COCO val2014 data sets can be downloaded from [kaggle](https://www.kaggle.com/dataset/e1cd22253a9b23b073794872bf565648ddbe4f17e7fa9e74766ad3707141adeb) and [cocodataset.org](https://cocodataset.org/#download) respectively.
 
 ### Training
 **Pytorch Lightning** makes **Pytorch** code device-independent. If you want to retrain or run some of our models in CPU, simply comment out the following arguments from the **Trainer** function:

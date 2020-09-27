@@ -20,6 +20,8 @@ The contrastive loss enforces correct instances to have a penalty of zero and in
 
 Before training the model, setup the flickr dataset with `flickr_split.py` and
 convert the GloVe embeddings using `glove_conv.py`.
+Download and extract the GloVe vectors into this directory.
+The 100-dimensional GloVe vectors are required.
 
 Then, you can train via
 
@@ -41,3 +43,6 @@ Current results:
 | Recall@1  | 0.32                    | 0.29                    |
 | Recall@10 | 0.74                    | 0.73                    |
 
+### API
+
+A simple API for the model is available in `recommender.py`
