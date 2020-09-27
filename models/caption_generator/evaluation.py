@@ -39,6 +39,8 @@ test, pad_idx = get_dataset(
 
 file_names = np.unique(np.asarray(test.df['image']))
 
+#Transforming all images to our CNN's input format
+
 imgs = []
 for name in file_names:
     path = '../../data/flickr8k/images/'+name
@@ -47,25 +49,29 @@ for name in file_names:
 def model_eval(epoch_file):
     print('=============================================')
     print()
+    #Getting model's information
     model_version_number = epoch_file.split('/')[5].split('_')[1]
     print('Testing model version: ', model_version_number)
 
+    #Loading the model
     model = CaptionGenerator.load_from_checkpoint(checkpoint_path = epoch_file, pad_idx = pad_idx)
     model.eval()
 
     with open(r'../../data/caption_generator/lightning_logs/version_'+model_version_number+'/hparams.yaml') as file:
         parameters = yaml.load(file, Loader = yaml.FullLoader)
     print('With parameters: ', parameters)
-
-    #captions = [" ".join(model.caption_image(image, dataset.vocab)[1:-1]) for image in imgs]
+    
+    captions = [" ".join(model.caption_image(image, dataset.vocab)[1:-1]) for image in imgs]
 
     # Putting the file names and their corresponding captions together in a DataFrame to then save as .tsv
-    #df = pd.DataFrame(data = {'image':file_names, 'caption':captions})
-    #df.to_csv('../../data/caption_generator/version_'+model_version_number+'_outputs.tsv', index = False, sep = '\t')
-
+    df = pd.DataFrame(data = {'image':file_names, 'caption':captions})
+    df.to_csv('../../data/caption_generator/version_'+model_version_number+'_outputs.tsv', index = False, sep = '\t')
+    
+    #Generating BLEU scores
     evaluation = BLEU('../../data/caption_generator/version_'+model_version_number+'_outputs.tsv')
     azul = evaluation.get_bleu_score()
-
+    
+    #Generating captions for the selected examples
     examples = get_examples(model, dataset)
 
     print('The model achieved the following performance on the test set: ')

@@ -124,7 +124,6 @@ class CNNtoRNN(nn.Module):
 
 class CaptionGenerator(pl.LightningModule):
 
-    #MODELS
 
     def __init__(self,
                 embed_size,
@@ -144,7 +143,8 @@ class CaptionGenerator(pl.LightningModule):
         self.batch_size = batch_size
         self.cnntornn = CNNtoRNN(self.embed_size, self.hidden_size, self.vocab_size, self.num_layers)
     
-    
+        
+        #Tuning the last layer between our encoder and the decoder
         for name, parameter in self.cnntornn.encoderCNN.inception.named_parameters():
             if 'fc.weight' in name or 'fc.bias' in name:
                 parameter.requires_grad = True
