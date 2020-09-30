@@ -4,11 +4,11 @@ Term project for the course **PM Computational Semantics with Pictures** at the 
 
 Developed by **Alexander Koch, Meryem Karalioglu** and **Rodrigo Lopez Portillo Alcocer**.
 
-## What it does
-Copy abstract?
+## Abstract
+Currently a growing reliance on automatic image captioning systems can be ob- served. These captions are oftentimes very generic and apply to a multitude of images. Furthermore the evaluation of the quality of these captions is a difficult task. In this paper we evaluate the quality of automatically generated image cap- tions by how discriminative they are. We trained an image captioning system and a multimodal version of it on the Flickr8K dataset. With them we conducted different experiments with varying levels of difficulty. Their implementation and theoretical foundations are described. <br>
+The generated captions turn out to be not sufficiently discriminative which is demonstrated by the retrieval evaluation method. We show that this is an applicable method of automatic evaluation.
 
 ## Setup
-Is this section necessary? <br>
 To install Pytorch Lightning check out their official GitHub repo [here](https://github.com/PyTorchLightning/pytorch-lightning), and Test-tube's pip installation command [here](https://pypi.org/project/test-tube/).
 
 ## Demos
@@ -21,6 +21,7 @@ If you want to look more closely at the scripts and models we used, see the corr
 
 ### Data
 Most of our generated data can be found in the `data/` directory.<br> Heavier files like our neural network's weights and checkpoints can be downloaded from [here](https://drive.google.com/drive/folders/1UK1CIVG-ASd9VSmCN0_hYsaUsB3drJWK?usp=sharing>). <br>
+The final weights and embedding for the multimodal model can be downloaded from [here](https://drive.google.com/drive/folders/13Mw5i6ygAkrDwfLvF1PrE8GYwcxGE1aF?usp=sharing). <br>
 The versions we used from the Flickr8k and COCO val2014 data sets can be downloaded from [kaggle](https://www.kaggle.com/dataset/e1cd22253a9b23b073794872bf565648ddbe4f17e7fa9e74766ad3707141adeb) and [cocodataset.org](https://cocodataset.org/#download) respectively.
 
 ### Training
