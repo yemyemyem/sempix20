@@ -9,7 +9,6 @@ Currently a growing reliance on automatic image captioning systems can be ob- se
 The generated captions turn out to be not sufficiently discriminative which is demonstrated by the retrieval evaluation method. We show that this is an applicable method of automatic evaluation.
 
 ## Setup
-Is this section necessary? <br>
 To install Pytorch Lightning check out their official GitHub repo [here](https://github.com/PyTorchLightning/pytorch-lightning), and Test-tube's pip installation command [here](https://pypi.org/project/test-tube/).
 
 ## Demos
