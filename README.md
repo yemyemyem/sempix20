@@ -5,7 +5,7 @@ Term project for the course **PM Computational Semantics with Pictures** at the 
 Developed by **Alexander Koch, Meryem Karalioglu** and **Rodrigo Lopez Portillo Alcocer**.
 
 ## Abstract
-Currently a growing reliance on automatic image captioning systems can be ob- served. These captions are oftentimes very generic and apply to a multitude of images. Furthermore the evaluation of the quality of these captions is a difficult task. In this paper we evaluate the quality of automatically generated image cap- tions by how discriminative they are. We trained an image captioning system and a multimodal version of it on the Flickr8K dataset. With them we conducted different experiments with varying levels of difficulty. Their implementation and theoretical foundations are described. <br>
+Currently a growing reliance on automatic image captioning systems can be observed. These captions are oftentimes very generic and apply to a multitude of images. Furthermore the evaluation of the quality of these captions is a difficult task. In this paper we evaluate the quality of automatically generated image captions by how discriminative they are. We trained an image captioning system and a multimodal version of it on the Flickr8K dataset. With them we conducted different experiments with varying levels of difficulty. Their implementation and theoretical foundations are described. <br><br>
 The generated captions turn out to be not sufficiently discriminative which is demonstrated by the retrieval evaluation method. We show that this is an applicable method of automatic evaluation.
 
 ## Setup
